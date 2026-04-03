@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-screen">
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
+
+    <div class="auth-screen__content">
+        <header class="auth-screen__top">
+            <p class="auth-screen__caption">Авторизация</p>
+        </header>
+
+        <section class="auth-screen__brand">
+            <img
+                src="/static/img/forum-logo-white.png"
+                alt="Молодежный форум платежных технологий"
+                class="auth-screen__logo"
+            />
+        </section>
+
+        <section class="auth-screen__body">
+            <h1 class="auth-screen__title">Вход</h1>
+            <p class="auth-screen__subtitle">
+                Введите 5-значный код, который вы получили при регистрации
+            </p>
+
+            <form class="auth-form-new" method="post" action="/auth/login">
+                <label class="auth-form-new__label" for="code">Код участника</label>
+
+                <input
+                    id="code"
+                    class="auth-form-new__input"
+                    type="text"
+                    name="code"
+                    placeholder="12345"
+                    maxlength="5"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    value="{{ entered_code or '' }}"
+                />
+
+                {% if error %}
+                    <p class="auth-form-new__error">{{ error }}</p>
+                {% endif %}
+
+                <button type="submit" class="auth-form-new__button">
+                    Войти
+                </button>
+
+                <p class="auth-form-new__hint">
+                    Код указан на вашем ваучере участника
+                </p>
+            </form>
+        </section>
+    </div>
+</section>
+{% endblock %}

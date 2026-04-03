@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="home-screen">
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="home-screen__decor home-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="home-screen__decor home-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="home-screen__decor home-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="home-screen__decor home-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
+
+    <div class="home-screen__content">
+        <header class="home-screen__top">
+            <p class="home-screen__caption">Главное меню</p>
+        </header>
+
+        <section class="home-screen__brand">
+            <img
+                src="/static/img/forum-logo-white.png"
+                alt="Молодежный форум платежных технологий"
+                class="home-screen__logo"
+            />
+        </section>
+
+        <section class="home-menu" aria-label="Основные разделы">
+            {% for item in menu_items %}
+                <a href="{{ item.href }}" class="home-menu__item {% if item.title == 'Голосование' %}home-menu__item--wide{% endif %}">
+                    <div class="home-menu__icon">
+                        <img src="{{ item.icon }}" alt="" aria-hidden="true" class="home-menu__icon-image" />
+                    </div>
+
+                    <div class="home-menu__title">{{ item.title }}</div>
+                </a>
+            {% endfor %}
+        </section>
+
+    </div>
+
+    <footer class="home-profile">
+        <div class="home-profile__left">
+            <div class="home-profile__avatar"></div>
+            <div class="home-profile__meta">
+                <div class="home-profile__name">{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="home-profile__role">{{ user.role_label }}</div>
+            </div>
+        </div>
+        <div class="home-profile__chip">код</div>
+    </footer>
+</section>
+{% endblock %}

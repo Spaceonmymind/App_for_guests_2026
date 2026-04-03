@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-screen">
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="auth-screen__decor auth-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
+
+    <div class="auth-screen__content">
+        <header class="auth-screen__top">
+            <p class="auth-screen__caption">Первичная активация</p>
+        </header>
+
+        <section class="auth-screen__brand">
+            <img
+                src="/static/img/forum-logo-white.png"
+                alt="Молодежный форум платежных технологий"
+                class="auth-screen__logo"
+            />
+        </section>
+
+        <section class="auth-screen__body">
+            <h1 class="auth-screen__title">Завершите вход</h1>
+            <p class="auth-screen__subtitle">
+                Введите имя и фамилию, чтобы активировать профиль участника
+            </p>
+
+            <form class="auth-form-new" method="post" action="/auth/activate">
+                <input type="hidden" name="code" value="{{ code }}" />
+
+                <label class="auth-form-new__label" for="first_name">Имя</label>
+                <input
+                    id="first_name"
+                    class="auth-form-new__input auth-form-new__input--text"
+                    type="text"
+                    name="first_name"
+                    placeholder="Введите имя"
+                    value="{{ first_name or '' }}"
+                    maxlength="100"
+                    autocomplete="given-name"
+                />
+
+                <label class="auth-form-new__label" for="last_name">Фамилия</label>
+                <input
+                    id="last_name"
+                    class="auth-form-new__input auth-form-new__input--text"
+                    type="text"
+                    name="last_name"
+                    placeholder="Введите фамилию"
+                    value="{{ last_name or '' }}"
+                    maxlength="100"
+                    autocomplete="family-name"
+                />
+
+                {% if error %}
+                    <p class="auth-form-new__error">{{ error }}</p>
+                {% endif %}
+
+                <button type="submit" class="auth-form-new__button">
+                    Активировать профиль
+                </button>
+            </form>
+        </section>
+    </div>
+</section>
+{% endblock %}

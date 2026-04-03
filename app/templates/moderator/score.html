@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-screen">
+    <img src="/static/img/decor-top-left.png" alt="" class="auth-screen__decor auth-screen__decor--top-left" aria-hidden="true" />
+    <img src="/static/img/decor-top-right.png" alt="" class="auth-screen__decor auth-screen__decor--top-right" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-left.png" alt="" class="auth-screen__decor auth-screen__decor--bottom-left" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-right.png" alt="" class="auth-screen__decor auth-screen__decor--bottom-right" aria-hidden="true" />
+
+    <div class="auth-screen__content">
+        <header class="auth-screen__top">
+            <p class="auth-screen__caption">Панель модератора</p>
+        </header>
+
+        <section class="auth-screen__body">
+            <h1 class="auth-screen__title">Начисление баллов</h1>
+            <p class="auth-screen__subtitle">Введите код участника и выберите активность</p>
+
+            <form class="auth-form-new" method="post" action="/moderator/score">
+                <label class="auth-form-new__label" for="participant_code">Код участника</label>
+                <input
+                    id="participant_code"
+                    class="auth-form-new__input"
+                    type="text"
+                    name="participant_code"
+                    placeholder="12345"
+                    maxlength="5"
+                    inputmode="numeric"
+                    value="{{ entered_code or '' }}"
+                />
+
+                <label class="auth-form-new__label" for="activity_id">Активность</label>
+                <select id="activity_id" name="activity_id" class="auth-form-new__input auth-form-new__input--text">
+                    {% for activity in activities %}
+                        <option
+                            value="{{ activity.id }}"
+                            {% if selected_activity_id == activity.id %}selected{% endif %}
+                        >
+                            {{ activity.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label class="auth-form-new__label" for="award_type">Тип начисления</label>
+                <select id="award_type" name="award_type" class="auth-form-new__input auth-form-new__input--text">
+                    <option value="participation" {% if selected_award_type == "participation" %}selected{% endif %}>
+                        Участие
+                    </option>
+                    <option value="winner" {% if selected_award_type == "winner" %}selected{% endif %}>
+                        Победа
+                    </option>
+                </select>
+
+                {% if error %}
+                    <p class="auth-form-new__error">{{ error }}</p>
+                {% endif %}
+
+                {% if success %}
+                    <p class="form-success">{{ success }}</p>
+                {% endif %}
+
+                <button type="submit" class="auth-form-new__button">Начислить</button>
+            </form>
+        </section>
+    </div>
+</section>
+{% endblock %}

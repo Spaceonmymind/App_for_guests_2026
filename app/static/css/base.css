@@ -1,0 +1,57 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+
+
+html {
+    background: #151541;
+}
+
+body {
+    margin: 0;
+    background: #151541;
+    color: var(--color-text);
+}
+
+.home-screen {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: hidden;
+    background: #151541;
+}
+
+.app-shell {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #151541;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    border: 0;
+    background: none;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}

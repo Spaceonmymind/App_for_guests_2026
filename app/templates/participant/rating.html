@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="rating-screen">
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="rating-screen__decor rating-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="rating-screen__decor rating-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="rating-screen__decor rating-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="rating-screen__decor rating-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
+
+    <div class="rating-screen__content">
+        <header class="rating-screen__header">
+            <p class="rating-screen__caption">Рейтинг</p>
+            <h1 class="rating-screen__title">Рейтинг</h1>
+        </header>
+
+        <section class="rating-list" aria-label="Рейтинг участников">
+            {% for item in leaderboard %}
+                <article class="rating-item {% if item.user_id == current_user.id %}rating-item--current{% endif %}">
+                    <div class="rating-item__accent {% if item.place <= 3 %}rating-item__accent--top{% endif %}"></div>
+
+                    <div class="rating-item__place">
+                        {{ "%02d"|format(item.place) }}
+                    </div>
+
+                    <div class="rating-item__avatar"></div>
+
+                    <div class="rating-item__main">
+                        <div class="rating-item__name">
+                            {{ item.first_name }} {{ item.last_name }}
+                        </div>
+                    </div>
+
+                    <div class="rating-item__score">
+                        {{ item.total_points }}
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+</section>
+{% endblock %}

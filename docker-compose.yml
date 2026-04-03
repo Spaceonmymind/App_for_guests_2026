@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: app_for_guests_2026
-      POSTGRES_USER: app_user
-      POSTGRES_PASSWORD: app_password
+      POSTGRES_USER: egor_gladkih
+      POSTGRES_PASSWORD: SupperDinner
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:

@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16
+    container_name: app_guests_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: app_for_guests_2026
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    container_name: app_guests_web
+    restart: unless-stopped
+    depends_on:
+      - db
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:

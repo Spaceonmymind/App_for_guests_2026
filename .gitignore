@@ -1,1 +1,40 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# === Virtual env ===
+.venv/
+venv/
+env/
+
+# === Environment ===
 .env
+.env.*
+!.env.example
+
+# === IDE ===
+.idea/
+.vscode/
+
+# === OS ===
+.DS_Store
+
+# === Logs ===
+*.log
+
+# === Database / local files ===
+*.sqlite3
+*.db
+
+# === Docker ===
+docker-compose.override.yml
+
+# === Static build cache ===
+*.tmp
+*.swp
+
+# === Migrations (если потом будет Alembic — можно убрать) ===
+alembic/versions/*

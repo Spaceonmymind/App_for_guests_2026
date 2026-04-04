@@ -47,7 +47,7 @@ class ModeratorAwardService:
         if activity is None:
             raise ModeratorAwardError("Активность не найдена.")
 
-        participant = self.user_repo.get_by_code(participant_code)
+        participant = self.user_repo.get_by_score_code(participant_code)
         if participant is None:
             raise ModeratorAwardError("Участник с таким кодом не найден.")
 

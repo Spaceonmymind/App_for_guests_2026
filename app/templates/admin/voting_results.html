@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-screen">
+    <div class="admin-screen__content">
+        <header class="admin-screen__header">
+            <h1 class="admin-screen__title">Результаты голосования</h1>
+        </header>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Место</th>
+                        <th>Автор</th>
+                        <th>Проект</th>
+                        <th>Голосов</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in results %}
+                        <tr>
+                            <td>{{ item.place }}</td>
+                            <td>
+                                {% if item.participant_name %}
+                                    {{ item.participant_name }}
+                                {% else %}
+                                    Автор не указан
+                                {% endif %}
+                            </td>
+                            <td>{{ item.project_name }}</td>
+                            <td>{{ item.votes_count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-back">
+            <a href="/admin" class="admin-back__link">← Назад в админку</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

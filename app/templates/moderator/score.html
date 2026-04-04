@@ -71,9 +71,9 @@
                                 name="participant_code"
                                 class="moderator-input"
                                 placeholder="Введите код"
-                                maxlength="5"
+                                maxlength="3"
                                 inputmode="numeric"
-                                pattern="[0-9]{5}"
+                                pattern="[0-9]{3}"
                                 required
                                 autofocus
                             >
@@ -103,7 +103,7 @@
         if (!input) return;
 
         input.addEventListener("input", () => {
-            input.value = input.value.replace(/\D/g, "").slice(0, 5);
+            input.value = input.value.replace(/\D/g, "").slice(0, 3);
         });
     })();
 </script>

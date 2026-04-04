@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-screen">
+    <div class="admin-screen__content">
+        <header class="admin-screen__header">
+            <h1 class="admin-screen__title">Активности</h1>
+        </header>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Баллы за участие</th>
+                        <th>Баллы за победу</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for activity in activities %}
+                        <tr>
+                            <td>{{ activity.id }}</td>
+                            <td>{{ activity.name }}</td>
+                            <td>{{ activity.points_participation }}</td>
+                            <td>{{ activity.points_win }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-back">
+            <a href="/admin" class="admin-back__link">← Назад в админку</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

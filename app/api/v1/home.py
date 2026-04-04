@@ -4,7 +4,9 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
+from app.models.user import UserRole
 from app.repositories.user_repository import UserRepository
+from app.services.score_code_service import ScoreCodeService
 
 router = APIRouter(tags=["home"])
 
@@ -23,6 +25,12 @@ def home_page(request: Request, db: Session = Depends(get_db)):
         request.session.clear()
         return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
 
+    if user.role == UserRole.PARTICIPANT.value and user.score_code is None:
+        score_code = ScoreCodeService(user_repo).generate_unique()
+        user.score_code = score_code
+        db.commit()
+        db.refresh(user)
+
     return templates.TemplateResponse(
         request=request,
         name="participant/home.html",
@@ -33,6 +41,7 @@ def home_page(request: Request, db: Session = Depends(get_db)):
                 "last_name": user.last_name or "",
                 "role_label": "участник",
                 "code": user.code,
+                "score_code": user.score_code,
             },
             "menu_items": [
                 {"title": "Карта", "icon": "/static/img/icon-map.png", "href": "/map"},

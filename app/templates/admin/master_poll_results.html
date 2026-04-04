@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-screen">
+    <div class="admin-screen__content">
+        <header class="admin-screen__header">
+            <h1 class="admin-screen__title">Результаты мастер-опроса</h1>
+        </header>
+
+        <div class="poll-results-grid">
+            {% for result in results %}
+                <div class="poll-result-card">
+                    <div class="poll-result-card__title">
+                        Вопрос {{ result["question_index"] }} — {{ result["title"] }}
+                    </div>
+
+                    <div class="poll-result-card__meta">
+                        Ответов: {{ result["total_answers"] }}
+                    </div>
+
+                    <div class="poll-chart">
+                        {% for item in result["items"] %}
+                            <div class="poll-chart__item">
+                                <div
+                                    class="poll-chart__circle"
+                                    style="--percent: {{ item["percent"] }};"
+                                >
+                                    <span class="poll-chart__percent">{{ item["percent"] }}%</span>
+                                </div>
+
+                                <div class="poll-chart__label">{{ item["label"] }}</div>
+                                <div class="poll-chart__text">{{ item["full_text"] }}</div>
+                                <div class="poll-chart__count">Голосов: {{ item["count"] }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="admin-back">
+            <a href="/admin" class="admin-back__link">← Назад в админку</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

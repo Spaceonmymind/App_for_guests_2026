@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db
 from app.models.user import UserActivationStatus
 from app.repositories.user_repository import UserRepository
-
+from app.services.score_code_service import ScoreCodeService
+from app.models.user import UserRole
 router = APIRouter(tags=["auth"])
 
 templates = Jinja2Templates(directory="app/templates")
@@ -31,15 +32,15 @@ def login_by_code(
     code: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    normalized_code = code.strip()
+    normalized_code = code.strip().upper()
 
-    if not normalized_code.isdigit() or len(normalized_code) != 5:
+    if not (6 <= len(normalized_code) <= 9):
         return templates.TemplateResponse(
             request=request,
             name="auth/login.html",
             context={
                 "title": "Вход",
-                "error": "Введите корректный 5-значный код.",
+                "error": "Введите корректный код (6–9 символов).",
                 "entered_code": normalized_code,
             },
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -66,17 +67,22 @@ def login_by_code(
             status_code=status.HTTP_303_SEE_OTHER,
         )
 
+    if user.role == UserRole.PARTICIPANT.value and user.score_code is None:
+        score_code = ScoreCodeService(user_repo).generate_unique()
+        user.score_code = score_code
+        db.commit()
+
     request.session["user_id"] = user.id
 
-    if user.role == "moderator":
+    if user.role == UserRole.MODERATOR.value:
         return RedirectResponse(
             url="/moderator",
             status_code=status.HTTP_303_SEE_OTHER,
         )
 
-    if user.role == "admin":
+    if user.role == UserRole.ADMIN.value:
         return RedirectResponse(
-            url="/moderator",
+            url="/admin",
             status_code=status.HTTP_303_SEE_OTHER,
         )
 
@@ -92,7 +98,8 @@ def activate_page(
     db: Session = Depends(get_db),
 ):
     user_repo = UserRepository(db)
-    user = user_repo.get_by_code(code)
+    normalized_code = code.strip().upper()
+    user = user_repo.get_by_code(normalized_code)
 
     if user is None:
         return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
@@ -105,7 +112,7 @@ def activate_page(
         name="auth/activate.html",
         context={
             "title": "Активация профиля",
-            "code": code,
+            "code": normalized_code,
             "error": None,
             "first_name": "",
             "last_name": "",
@@ -121,7 +128,7 @@ def activate_user(
     last_name: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    normalized_code = code.strip()
+    normalized_code = code.strip().upper()
     normalized_first_name = first_name.strip()
     normalized_last_name = last_name.strip()
 
@@ -150,6 +157,15 @@ def activate_user(
         first_name=normalized_first_name,
         last_name=normalized_last_name,
     )
+
+    if (
+        activated_user.role == UserRole.PARTICIPANT.value
+        and activated_user.score_code is None
+    ):
+        score_code = ScoreCodeService(user_repo).generate_unique()
+        activated_user.score_code = score_code
+        db.commit()
+        db.refresh(activated_user)
 
     request.session["user_id"] = activated_user.id
 

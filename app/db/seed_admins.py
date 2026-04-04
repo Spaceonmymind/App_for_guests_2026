@@ -3,10 +3,8 @@ from sqlalchemy import select
 from app.db.session import SessionLocal
 from app.models.user import User, UserActivationStatus, UserRole
 
-MODERATORS = [
-    {"code": "111111", "first_name": "Модератор", "last_name": "Егор"},
-    {"code": "222222", "first_name": "Модератор", "last_name": "Ваня"},
-    {"code": "333333", "first_name": "Модератор", "last_name": "Петя"},
+ADMINS = [
+    {"code": "900001", "first_name": "Админ", "last_name": "Основной"},
 ]
 
 
@@ -14,7 +12,7 @@ def seed() -> None:
     with SessionLocal() as db:
         created = 0
 
-        for item in MODERATORS:
+        for item in ADMINS:
             existing = db.scalar(
                 select(User).where(User.code == item["code"])
             )
@@ -26,14 +24,14 @@ def seed() -> None:
                     code=item["code"],
                     first_name=item["first_name"],
                     last_name=item["last_name"],
-                    role=UserRole.MODERATOR.value,
+                    role=UserRole.ADMIN.value,
                     activation_status=UserActivationStatus.ACTIVE.value,
                 )
             )
             created += 1
 
         db.commit()
-        print(f"Created moderators: {created}")
+        print(f"Created admins: {created}")
 
 
 if __name__ == "__main__":

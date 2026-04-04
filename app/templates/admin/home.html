@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-screen">
+    <div class="admin-screen__content">
+        <header class="admin-screen__header">
+            <h1 class="admin-screen__title">Админка</h1>
+        </header>
+
+        <div class="admin-menu">
+            <a href="/admin/users" class="admin-menu__card">
+                <div class="admin-menu__title">Пользователи</div>
+                <div class="admin-menu__text">Список всех пользователей</div>
+            </a>
+
+            <a href="/admin/moderators" class="admin-menu__card">
+                <div class="admin-menu__title">Модераторы</div>
+                <div class="admin-menu__text">Список модераторов</div>
+            </a>
+
+            <a href="/admin/activities" class="admin-menu__card">
+                <div class="admin-menu__title">Активности</div>
+                <div class="admin-menu__text">Список всех активностей</div>
+            </a>
+
+            <a href="/admin/moderator-activities" class="admin-menu__card">
+                <div class="admin-menu__title">Привязка активностей</div>
+                <div class="admin-menu__text">Закрепление активностей за модераторами</div>
+            </a>
+
+            <a href="/admin/manual-awards" class="admin-menu__card">
+                <div class="admin-menu__title">Начислить / отнять баллы</div>
+                <div class="admin-menu__text">Ручная корректировка баллов</div>
+            </a>
+
+            <a href="/admin/master-poll-results" class="admin-menu__card">
+                <div class="admin-menu__title">Результаты мастер-опроса</div>
+                <div class="admin-menu__text">Статистика по 4 вопросам</div>
+            </a>
+
+            <a href="/admin/voting-results" class="admin-menu__card">
+                <div class="admin-menu__title">Результаты голосования</div>
+                <div class="admin-menu__text">Голоса за лучший проект</div>
+            </a>
+
+            <a href="/admin/rating-finalize" class="admin-menu__card">
+                <div class="admin-menu__title">Завершение рейтинга</div>
+                <div class="admin-menu__text">Сформировать и сохранить топ-15</div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

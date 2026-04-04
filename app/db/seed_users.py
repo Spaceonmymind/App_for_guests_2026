@@ -4,11 +4,11 @@ from app.db.session import SessionLocal
 from app.models.user import User, UserActivationStatus, UserRole
 
 TEST_CODES = [
-    "12345",
-    "23456",
-    "34567",
-    "45678",
-    "56789",
+    "A7K91Q",
+    "ZX4P82L",
+    "QW91ER7",
+    "PLM8K23",
+    "RT56YU9",
 ]
 
 

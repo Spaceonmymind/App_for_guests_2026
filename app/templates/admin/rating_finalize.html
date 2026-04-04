@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-screen">
+    <div class="admin-screen__content">
+        <header class="admin-screen__header">
+            <h1 class="admin-screen__title">Завершение рейтинга</h1>
+        </header>
+
+        {% if error_message %}
+            <div class="admin-alert admin-alert--error">{{ error_message }}</div>
+        {% endif %}
+
+        {% if success_message %}
+            <div class="admin-alert admin-alert--success">{{ success_message }}</div>
+        {% endif %}
+
+        <div class="admin-form-card">
+            <div class="admin-form-card__title">Сформировать топ-15</div>
+            <div class="admin-form-card__text">
+                Нажатие кнопки очистит текущий список победителей и заново сформирует топ-15 по текущему рейтингу.
+            </div>
+
+            <form method="post" action="/admin/rating-finalize" class="admin-form">
+                <button type="submit" class="admin-button">Завершить рейтинг</button>
+            </form>
+        </div>
+
+        <div class="admin-form-card">
+            <div class="admin-form-card__title">Предпросмотр текущего топ-15</div>
+
+            <div class="admin-table-wrap admin-table-wrap--inner">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Место</th>
+                            <th>Код</th>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Баллы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in preview_top %}
+                            <tr>
+                                <td>{{ item.place }}</td>
+                                <td>{{ item.code }}</td>
+                                <td>{{ item.first_name }}</td>
+                                <td>{{ item.last_name }}</td>
+                                <td>{{ item.total_points }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-form-card">
+            <div class="admin-form-card__title">Текущий сохраненный список победителей</div>
+
+            <div class="admin-table-wrap admin-table-wrap--inner">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Место</th>
+                            <th>User ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in winners %}
+                            <tr>
+                                <td>{{ item.place }}</td>
+                                <td>{{ item.user_id }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-back">
+            <a href="/admin" class="admin-back__link">← Назад в админку</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

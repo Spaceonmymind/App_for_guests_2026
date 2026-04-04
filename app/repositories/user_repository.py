@@ -17,6 +17,10 @@ class UserRepository:
         stmt = select(User).where(User.code == code)
         return self.db.scalar(stmt)
 
+    def get_by_score_code(self, score_code: str):
+        stmt = select(User).where(User.score_code == score_code)
+        return self.db.scalar(stmt)
+
     def create(
         self,
         *,

@@ -62,7 +62,74 @@
                 <div class="home-profile__role">{{ user.role_label }}</div>
             </div>
         </div>
-        <div class="home-profile__chip">код</div>
+
+        <button
+            type="button"
+            class="home-profile__chip"
+            id="score-code-open"
+        >
+            код
+        </button>
     </footer>
+
+    <div class="score-code-modal" id="score-code-modal" aria-hidden="true">
+        <div class="score-code-modal__backdrop" id="score-code-close-backdrop"></div>
+
+        <div class="score-code-modal__dialog">
+            <button
+                type="button"
+                class="score-code-modal__close"
+                id="score-code-close"
+                aria-label="Закрыть"
+            >
+                ×
+            </button>
+
+            <div class="score-code-modal__title">Ваш код</div>
+            <div class="score-code-modal__value">{{ user.score_code or "—" }}</div>
+            <div class="score-code-modal__text">
+                Покажите этот код модератору для начисления баллов
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const openButton = document.getElementById("score-code-open");
+            const modal = document.getElementById("score-code-modal");
+            const closeButton = document.getElementById("score-code-close");
+            const closeBackdrop = document.getElementById("score-code-close-backdrop");
+
+            if (!openButton || !modal) return;
+
+            const openModal = () => {
+                modal.classList.add("score-code-modal--open");
+                modal.setAttribute("aria-hidden", "false");
+                document.body.style.overflow = "hidden";
+            };
+
+            const closeModal = () => {
+                modal.classList.remove("score-code-modal--open");
+                modal.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+            };
+
+            openButton.addEventListener("click", openModal);
+
+            if (closeButton) {
+                closeButton.addEventListener("click", closeModal);
+            }
+
+            if (closeBackdrop) {
+                closeBackdrop.addEventListener("click", closeModal);
+            }
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    closeModal();
+                }
+            });
+        })();
+    </script>
 </section>
 {% endblock %}

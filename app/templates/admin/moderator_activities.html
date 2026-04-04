@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-screen">
+    <div class="admin-screen__content">
+        <header class="admin-screen__header">
+            <h1 class="admin-screen__title">Привязка активностей</h1>
+        </header>
+
+        {% if error_message %}
+            <div class="admin-alert admin-alert--error">{{ error_message }}</div>
+        {% endif %}
+
+        {% if success_message %}
+            <div class="admin-alert admin-alert--success">{{ success_message }}</div>
+        {% endif %}
+
+        <div class="admin-form-card">
+            <div class="admin-form-card__title">Новая привязка</div>
+
+            <form method="post" action="/admin/moderator-activities" class="admin-form">
+                <label class="admin-form__field">
+                    <span class="admin-form__label">Модератор</span>
+                    <select name="moderator_user_id" class="admin-form__select" required>
+                        <option value="">Выберите модератора</option>
+                        {% for moderator in moderators %}
+                            <option value="{{ moderator.id }}">
+                                {{ moderator.last_name }} {{ moderator.first_name }} — {{ moderator.code }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label class="admin-form__field">
+                    <span class="admin-form__label">Активность</span>
+                    <select name="activity_id" class="admin-form__select" required>
+                        <option value="">Выберите активность</option>
+                        {% for activity in activities %}
+                            <option value="{{ activity.id }}">
+                                {{ activity.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <button type="submit" class="admin-button">Создать привязку</button>
+            </form>
+        </div>
+
+        <div class="admin-table-wrap admin-table-wrap--mt">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Модератор</th>
+                        <th>Код</th>
+                        <th>Активность</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for binding, moderator, activity in bindings %}
+                        <tr>
+                            <td>{{ binding.id }}</td>
+                            <td>{{ moderator.last_name }} {{ moderator.first_name }}</td>
+                            <td>{{ moderator.code }}</td>
+                            <td>{{ activity.name }}</td>
+                            <td>
+                                <form method="post" action="/admin/moderator-activities/{{ binding.id }}/delete">
+                                    <button type="submit" class="admin-button admin-button--danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-back">
+            <a href="/admin" class="admin-back__link">← Назад в админку</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

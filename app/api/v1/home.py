@@ -39,7 +39,7 @@ def home_page(request: Request, db: Session = Depends(get_db)):
                 {"title": "Программа", "icon": "/static/img/icon-program.png", "href": "/program"},
                 {"title": "Интерактивы", "icon": "/static/img/icon-activities.png", "href": "/activities"},
                 {"title": "Рейтинг", "icon": "/static/img/icon-rating.png", "href": "/rating"},
-                {"title": "Голосование", "icon": "/static/img/icon-voting.png", "href": "#"},
+                {"title": "Голосование", "icon": "/static/img/icon-voting.png", "href": "/voting"},
             ],
         },
     )

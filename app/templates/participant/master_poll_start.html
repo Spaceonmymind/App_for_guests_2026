@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="poll-screen">
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
+
+    <div class="poll-screen__content poll-screen__content--start">
+        <header class="poll-screen__header">
+            <h1 class="poll-screen__title">Мастер-опрос</h1>
+        </header>
+
+        <div class="poll-screen__center">
+            <div class="poll-screen__topic poll-screen__topic--start">
+                {{ step_title | replace('\n', '<br>') | safe }}
+            </div>
+        </div>
+
+        <div class="poll-screen__actions poll-screen__actions--bottom">
+            <a href="/master-poll/{{ step_index }}" class="poll-screen__button">Перейти к вопросу</a>
+        </div>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+</section>
+{% endblock %}

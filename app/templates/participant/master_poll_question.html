@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="poll-screen">
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="poll-screen__decor poll-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
+
+    <div class="poll-screen__content poll-screen__content--question">
+        <header class="poll-screen__header poll-screen__header--question">
+            <h1 class="poll-screen__title poll-screen__title--small">
+                {{ step_title | replace('\n', '<br>') | safe }}
+            </h1>
+        </header>
+
+        <form method="post" action="/master-poll/{{ step_index }}" class="poll-form">
+            <div class="poll-form__scroll">
+
+                <div class="poll-center">
+                    <div class="poll-question">
+                        {{ question | safe }}
+                    </div>
+
+                    <div class="poll-answers">
+                        {% for item in answers %}
+                            <label class="poll-answer">
+                                <input
+                                    type="radio"
+                                    name="answer"
+                                    value="{{ item }}"
+                                    class="poll-answer__input"
+                                    required
+                                />
+                                <span class="poll-answer__text">{{ item }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="poll-screen__actions poll-screen__actions--sticky">
+                <button type="submit" class="poll-screen__button">
+                    {% if is_last %}Завершить мастер-опрос{% else %}Далее{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+</section>
+{% endblock %}

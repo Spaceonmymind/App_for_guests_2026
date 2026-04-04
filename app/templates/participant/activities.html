@@ -2,10 +2,30 @@
 
 {% block content %}
 <section class="activities-screen">
-    <img src="/static/img/decor-top-left.png" alt="" class="activities-screen__decor activities-screen__decor--top-left" aria-hidden="true" />
-    <img src="/static/img/decor-top-right.png" alt="" class="activities-screen__decor activities-screen__decor--top-right" aria-hidden="true" />
-    <img src="/static/img/decor-bottom-left.png" alt="" class="activities-screen__decor activities-screen__decor--bottom-left" aria-hidden="true" />
-    <img src="/static/img/decor-bottom-right.png" alt="" class="activities-screen__decor activities-screen__decor--bottom-right" aria-hidden="true" />
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="activities-screen__decor activities-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="activities-screen__decor activities-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="activities-screen__decor activities-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="activities-screen__decor activities-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
 
     <div class="activities-screen__content">
         <header class="activities-screen__header">
@@ -14,35 +34,52 @@
 
         <section class="activities-categories" aria-label="Категории интерактивов">
             {% for item in categories %}
-                {% if item.is_clickable %}
+                {% if item.slug == "master-poll" %}
+                    <a href="/master-poll" class="activities-category-card activities-category-card--poll">
+                {% elif item.slug == "best-project-vote" %}
+                    <a href="/voting" class="activities-category-card activities-category-card--vote">
+                {% elif item.is_clickable %}
                     <a href="/activities/{{ item.slug }}" class="activities-category-card">
                 {% else %}
                     <div class="activities-category-card activities-category-card--static">
                 {% endif %}
-                    <div class="activities-category-card__top">
-                        <div class="activities-category-card__number">
-                            {{ "%02d"|format(loop.index) }}
+
+                        <div class="activities-category-card__top">
+                            <div class="activities-category-card__number">
+                                {{ "%02d"|format(loop.index) }}
+                            </div>
+
+                            {% if item.badge_mode == "poll" or item.badge_mode == "vote" %}
+                                <div class="activities-category-card__points-text">10 баллов</div>
+                            {% elif item.completed_count == item.tasks_count and item.tasks_count > 0 %}
+                                <div class="activities-status activities-status--done">завершено</div>
+                            {% else %}
+                                <div class="activities-status">не пройдено</div>
+                            {% endif %}
                         </div>
 
-                        {% if item.completed_count == item.tasks_count and item.tasks_count > 0 %}
-                            <div class="activities-status activities-status--done">завершено</div>
-                        {% else %}
-                            <div class="activities-status">не пройдено</div>
-                        {% endif %}
-                    </div>
+                        <div class="activities-category-card__title">
+                            {{ item.title | replace('\n', '<br>') | safe }}
+                        </div>
 
-                    <div class="activities-category-card__title">{{ item.title | replace('\n', '<br>') | safe }}</div>
-                    <div class="activities-category-card__subtitle">{{ item.subtitle | replace('\n', '<br>') | safe }}</div>
-
-                    <div class="activities-category-card__meta">
-                        {% if item.badge_mode == "constructor" %}
-                            <span class="activities-chip">сбор: 5 баллов</span>
-                        {% else %}
-                            <span class="activities-chip">победа: 5 баллов</span>
-                            <span class="activities-chip">участие: 2 балла</span>
+                        {% if item.subtitle %}
+                            <div class="activities-category-card__subtitle">
+                                {{ item.subtitle | replace('\n', '<br>') | safe }}
+                            </div>
                         {% endif %}
-                    </div>
-                {% if item.is_clickable %}
+
+                        {% if item.badge_mode != "vote" and item.badge_mode != "poll" %}
+                            <div class="activities-category-card__meta">
+                                {% if item.badge_mode == "constructor" %}
+                                    <span class="activities-chip">сбор: 5 баллов</span>
+                                {% else %}
+                                    <span class="activities-chip">победа: 5 баллов</span>
+                                    <span class="activities-chip">участие: 2 балла</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                {% if item.slug == "master-poll" or item.slug == "best-project-vote" or item.is_clickable %}
                     </a>
                 {% else %}
                     </div>
@@ -52,5 +89,37 @@
     </div>
 
     {% include "includes/bottom_nav.html" %}
+
+    {% if master_poll_error %}
+        <div class="map-modal map-modal--open" id="master-poll-error">
+            <div class="map-modal__backdrop" onclick="closeMasterPollError()"></div>
+
+            <div class="map-modal__dialog">
+                <button
+                    type="button"
+                    class="map-modal__close"
+                    onclick="closeMasterPollError()"
+                    aria-label="Закрыть"
+                >
+                    ×
+                </button>
+
+                <h3 class="map-modal__title">Внимание</h3>
+
+                <div class="map-modal__body">
+                    <p>{{ master_poll_error }}</p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function closeMasterPollError() {
+                const modal = document.getElementById("master-poll-error");
+                if (modal) {
+                    modal.classList.remove("map-modal--open");
+                }
+            }
+        </script>
+    {% endif %}
 </section>
 {% endblock %}

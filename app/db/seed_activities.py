@@ -4,20 +4,22 @@ from app.db.session import SessionLocal
 from app.models.activity import Activity
 
 ACTIVITIES = [
-    "Финансовая игра 1",
-    "Финансовая игра 2",
-    "Финансовая игра 3",
-    "Финансовая игра 4",
-    "Финансовая игра 5",
-    "Финансовая игра 6",
-    "Конструктор транзакций 1",
-    "Конструктор транзакций 2",
-    "Конструктор транзакций 3",
-    "Конструктор транзакций 4",
-    "Финтех-гуру",
-    "Мир идей",
-    "Квиз",
-    "Прожарка резюме",
+    {"name": "Юный инвестор", "points_participation": 2, "points_win": 5},
+    {"name": "Инновационный ширпотреб", "points_participation": 2, "points_win": 5},
+    {"name": "Финансовый детектив", "points_participation": 2, "points_win": 5},
+    {"name": "Накопи на мечту", "points_participation": 2, "points_win": 5},
+    {"name": "Мамин инвестор", "points_participation": 2, "points_win": 5},
+    {"name": "Жажда власти", "points_participation": 2, "points_win": 5},
+    {"name": "ПС Мир", "points_participation": 5, "points_win": 5},
+    {"name": "СБП", "points_participation": 5, "points_win": 5},
+    {"name": "Блокчейн", "points_participation": 5, "points_win": 5},
+    {"name": "3D-Secure", "points_participation": 5, "points_win": 5},
+    {"name": "Финтех-гуру", "points_participation": 2, "points_win": 5},
+    {"name": "Мир идей", "points_participation": 2, "points_win": 5},
+    {"name": "Квиз Мир Mir.Platform", "points_participation": 2, "points_win": 5},
+    {"name": "Прожарка резюме", "points_participation": 2, "points_win": 5},
+    {"name": "Мастер-опрос", "points_participation": 10, "points_win": 10},
+    {"name": "Голосование за лучший проект", "points_participation": 10, "points_win": 10},
 ]
 
 
@@ -26,15 +28,17 @@ def seed() -> None:
         existing_names = set(db.scalars(select(Activity.name)).all())
         created = 0
 
-        for name in ACTIVITIES:
+        for item in ACTIVITIES:
+            name = item["name"]
+
             if name in existing_names:
                 continue
 
             db.add(
                 Activity(
                     name=name,
-                    points_participation=5,
-                    points_win=10,
+                    points_participation=item["points_participation"],
+                    points_win=item["points_win"],
                 )
             )
             created += 1

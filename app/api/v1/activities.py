@@ -32,6 +32,7 @@ def activities_page(request: Request, db: Session = Depends(get_db)):
         return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
 
     categories = ActivitiesCatalogService(db).get_categories(current_user.id)
+    master_poll_error = request.session.pop("master_poll_error", None)
 
     return templates.TemplateResponse(
         request=request,
@@ -40,6 +41,7 @@ def activities_page(request: Request, db: Session = Depends(get_db)):
             "title": "Интерактивы",
             "categories": categories,
             "active_tab": "activities",
+            "master_poll_error": master_poll_error,
         },
     )
 

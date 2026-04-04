@@ -68,11 +68,22 @@ def login_by_code(
 
     request.session["user_id"] = user.id
 
+    if user.role == "moderator":
+        return RedirectResponse(
+            url="/moderator",
+            status_code=status.HTTP_303_SEE_OTHER,
+        )
+
+    if user.role == "admin":
+        return RedirectResponse(
+            url="/moderator",
+            status_code=status.HTTP_303_SEE_OTHER,
+        )
+
     return RedirectResponse(
         url="/home",
         status_code=status.HTTP_303_SEE_OTHER,
     )
-
 
 @router.get("/auth/activate", response_class=HTMLResponse)
 def activate_page(

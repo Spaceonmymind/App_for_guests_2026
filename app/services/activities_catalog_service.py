@@ -39,6 +39,26 @@ class ActivitiesCatalogService:
         joined_ids = self.user_activity_repo.get_awarded_activity_ids_for_user(user_id=user_id)
 
         grouped: dict[str, ActivityCategoryView] = {
+            "master-poll": ActivityCategoryView(
+                slug="master-poll",
+                title="Мастер-опрос",
+                subtitle="Бренд-зона НСПК",
+                tasks_count=0,
+                completed_count=0,
+                tasks=[],
+                is_clickable=True,
+                badge_mode="poll",
+            ),
+            "best-project-vote": ActivityCategoryView(
+                slug="best-project-vote",
+                title="Голосование\nза лучший проект",
+                subtitle="",
+                tasks_count=0,
+                completed_count=0,
+                tasks=[],
+                is_clickable=True,
+                badge_mode="vote",
+            ),
             "financial-games": ActivityCategoryView(
                 slug="financial-games",
                 title="Финансовые\nигры",
@@ -59,30 +79,10 @@ class ActivitiesCatalogService:
                 is_clickable=True,
                 badge_mode="constructor",
             ),
-            "fintech-guru": ActivityCategoryView(
-                slug="fintech-guru",
-                title="Финтех-гуру",
-                subtitle="Бренд-зона\nНСПК",
-                tasks_count=0,
-                completed_count=0,
-                tasks=[],
-                is_clickable=False,
-                badge_mode="standard",
-            ),
-            "ideas-world": ActivityCategoryView(
-                slug="ideas-world",
-                title="Мир идей",
-                subtitle="Бренд-зона\nНСПК",
-                tasks_count=0,
-                completed_count=0,
-                tasks=[],
-                is_clickable=False,
-                badge_mode="standard",
-            ),
             "quiz": ActivityCategoryView(
                 slug="quiz",
                 title="Квиз Мир\nPlat.Form",
-                subtitle="Бренд-зона\nНСПК",
+                subtitle="Бренд-зона НСПК",
                 tasks_count=0,
                 completed_count=0,
                 tasks=[],
@@ -92,7 +92,27 @@ class ActivitiesCatalogService:
             "resume-roast": ActivityCategoryView(
                 slug="resume-roast",
                 title="Прожарка\nрезюме",
-                subtitle="Бренд-зона\nНСПК",
+                subtitle="Бренд-зона НСПК",
+                tasks_count=0,
+                completed_count=0,
+                tasks=[],
+                is_clickable=False,
+                badge_mode="standard",
+            ),
+            "fintech-guru": ActivityCategoryView(
+                slug="fintech-guru",
+                title="Финтех-гуру",
+                subtitle="Бренд-зона НСПК",
+                tasks_count=0,
+                completed_count=0,
+                tasks=[],
+                is_clickable=False,
+                badge_mode="standard",
+            ),
+            "ideas-world": ActivityCategoryView(
+                slug="ideas-world",
+                title="Мир идей",
+                subtitle="Бренд-зона НСПК",
                 tasks_count=0,
                 completed_count=0,
                 tasks=[],
@@ -181,11 +201,11 @@ class ActivitiesCatalogService:
 
         return list(grouped.values())
 
-    def get_categories(self, user_id: int) -> list[ActivityCategoryView]:
-        return self._build_catalog(user_id)
-
     def get_category(self, user_id: int, slug: str) -> ActivityCategoryView | None:
         for category in self._build_catalog(user_id):
-            if category.slug == slug and category.is_clickable:
+            if category.slug == slug and category.slug in {"financial-games", "transaction-constructor"}:
                 return category
         return None
+
+    def get_categories(self, user_id: int) -> list[ActivityCategoryView]:
+        return self._build_catalog(user_id)

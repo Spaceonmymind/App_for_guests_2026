@@ -1,67 +1,110 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="auth-screen">
-    <img src="/static/img/decor-top-left.png" alt="" class="auth-screen__decor auth-screen__decor--top-left" aria-hidden="true" />
-    <img src="/static/img/decor-top-right.png" alt="" class="auth-screen__decor auth-screen__decor--top-right" aria-hidden="true" />
-    <img src="/static/img/decor-bottom-left.png" alt="" class="auth-screen__decor auth-screen__decor--bottom-left" aria-hidden="true" />
-    <img src="/static/img/decor-bottom-right.png" alt="" class="auth-screen__decor auth-screen__decor--bottom-right" aria-hidden="true" />
+<section class="moderator-screen">
+    <img
+        src="/static/img/decor-top-left.png"
+        alt=""
+        class="moderator-screen__decor moderator-screen__decor--top-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-top-right.png"
+        alt=""
+        class="moderator-screen__decor moderator-screen__decor--top-right"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-left.png"
+        alt=""
+        class="moderator-screen__decor moderator-screen__decor--bottom-left"
+        aria-hidden="true"
+    />
+    <img
+        src="/static/img/decor-bottom-right.png"
+        alt=""
+        class="moderator-screen__decor moderator-screen__decor--bottom-right"
+        aria-hidden="true"
+    />
 
-    <div class="auth-screen__content">
-        <header class="auth-screen__top">
-            <p class="auth-screen__caption">Панель модератора</p>
+    <div class="moderator-screen__content">
+        <header class="moderator-screen__header">
+            <h1 class="moderator-screen__title">Модератор</h1>
         </header>
 
-        <section class="auth-screen__body">
-            <h1 class="auth-screen__title">Начисление баллов</h1>
-            <p class="auth-screen__subtitle">Введите код участника и выберите активность</p>
+        {% if error_message %}
+            <div class="moderator-message moderator-message--error">
+                {{ error_message }}
+            </div>
+        {% endif %}
 
-            <form class="auth-form-new" method="post" action="/moderator/score">
-                <label class="auth-form-new__label" for="participant_code">Код участника</label>
-                <input
-                    id="participant_code"
-                    class="auth-form-new__input"
-                    type="text"
-                    name="participant_code"
-                    placeholder="12345"
-                    maxlength="5"
-                    inputmode="numeric"
-                    value="{{ entered_code or '' }}"
-                />
+        {% if success_message %}
+            <div class="moderator-message moderator-message--success">
+                {{ success_message }}
+            </div>
+        {% endif %}
 
-                <label class="auth-form-new__label" for="activity_id">Активность</label>
-                <select id="activity_id" name="activity_id" class="auth-form-new__input auth-form-new__input--text">
-                    {% for activity in activities %}
-                        <option
-                            value="{{ activity.id }}"
-                            {% if selected_activity_id == activity.id %}selected{% endif %}
-                        >
-                            {{ activity.name }}
-                        </option>
-                    {% endfor %}
-                </select>
+        {% if activities %}
+            <div class="moderator-activities">
+                {% for activity in activities %}
+                    <a
+                        href="/moderator?activity_id={{ activity.id }}"
+                        class="moderator-activity-pill {% if selected_activity and selected_activity.id == activity.id %}moderator-activity-pill--active{% endif %}"
+                    >
+                        {{ activity.name }}
+                    </a>
+                {% endfor %}
+            </div>
 
-                <label class="auth-form-new__label" for="award_type">Тип начисления</label>
-                <select id="award_type" name="award_type" class="auth-form-new__input auth-form-new__input--text">
-                    <option value="participation" {% if selected_award_type == "participation" %}selected{% endif %}>
-                        Участие
-                    </option>
-                    <option value="winner" {% if selected_award_type == "winner" %}selected{% endif %}>
-                        Победа
-                    </option>
-                </select>
+            {% if selected_activity %}
+                <div class="moderator-card">
+                    <div class="moderator-card__label">Закрепленная активность</div>
+                    <div class="moderator-card__title">{{ selected_activity.name }}</div>
 
-                {% if error %}
-                    <p class="auth-form-new__error">{{ error }}</p>
-                {% endif %}
+                    <form method="post" action="/moderator/award" class="moderator-form">
+                        <input type="hidden" name="activity_id" value="{{ selected_activity.id }}">
 
-                {% if success %}
-                    <p class="form-success">{{ success }}</p>
-                {% endif %}
+                        <label class="moderator-field">
+                            <span class="moderator-field__label">Код участника</span>
+                            <input
+                                type="text"
+                                name="participant_code"
+                                class="moderator-input"
+                                placeholder="Введите код"
+                                maxlength="5"
+                                inputmode="numeric"
+                                pattern="[0-9]{5}"
+                                required
+                                autofocus
+                            >
+                        </label>
 
-                <button type="submit" class="auth-form-new__button">Начислить</button>
-            </form>
-        </section>
+                        <div class="moderator-actions">
+                            {% for option in award_options %}
+                                <button
+                                    type="submit"
+                                    name="award_type"
+                                    value="{{ option.value }}"
+                                    class="moderator-action-button"
+                                >
+                                    {{ option.label }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
     </div>
 </section>
+<script>
+    (function () {
+        const input = document.querySelector(".moderator-input");
+        if (!input) return;
+
+        input.addEventListener("input", () => {
+            input.value = input.value.replace(/\D/g, "").slice(0, 5);
+        });
+    })();
+</script>
 {% endblock %}

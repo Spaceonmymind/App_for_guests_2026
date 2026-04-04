@@ -31,18 +31,38 @@
         <header class="rating-screen__header">
             <p class="rating-screen__caption">Рейтинг</p>
             <h1 class="rating-screen__title">Рейтинг</h1>
+
+            {% if rating_is_finalized %}
+                <button
+                    type="button"
+                    class="rating-screen__gift-button {% if not current_user_is_winner %}rating-screen__gift-button--disabled{% endif %}"
+                    {% if current_user_is_winner %}
+                        data-open-winner-modal="true"
+                    {% else %}
+                        disabled
+                    {% endif %}
+                    aria-label="Информация о награждении"
+                >
+                    <img src="/static/img/icon-gift.png" alt="" aria-hidden="true" class="rating-screen__gift-icon" />
+                    {% if current_user_is_winner %}
+                        <span class="rating-screen__gift-badge">!</span>
+                    {% endif %}
+                </button>
+            {% endif %}
         </header>
 
         <section class="rating-list" aria-label="Рейтинг участников">
             {% for item in leaderboard %}
-                <article class="rating-item {% if item.user_id == current_user.id %}rating-item--current{% endif %}">
+                <article class="rating-item {% if item.is_current_user %}rating-item--current{% endif %} {% if loop.index is odd %}rating-item--odd{% else %}rating-item--even{% endif %}">
                     <div class="rating-item__accent {% if item.place <= 3 %}rating-item__accent--top{% endif %}"></div>
 
                     <div class="rating-item__place">
                         {{ "%02d"|format(item.place) }}
                     </div>
 
-                    <div class="rating-item__avatar"></div>
+                    <div class="rating-item__avatar">
+                        <img src="/static/img/icon-user-character.png" alt="" aria-hidden="true" class="rating-item__avatar-icon" />
+                    </div>
 
                     <div class="rating-item__main">
                         <div class="rating-item__name">
@@ -50,14 +70,89 @@
                         </div>
                     </div>
 
-                    <div class="rating-item__score">
+                    <div class="rating-item__points">
                         {{ item.total_points }}
                     </div>
+
+                    {% if item.show_gift %}
+                        <button
+                            type="button"
+                            class="rating-item__gift-button"
+                            data-open-winner-modal="true"
+                            aria-label="Информация о награждении"
+                        >
+                            <img src="/static/img/icon-gift-white.png" alt="" aria-hidden="true" class="rating-item__gift-icon" />
+                        </button>
+                    {% endif %}
                 </article>
             {% endfor %}
         </section>
     </div>
 
     {% include "includes/bottom_nav.html" %}
+
+    <div class="winner-modal" id="winner-modal" aria-hidden="true">
+        <div class="winner-modal__backdrop" data-close-winner-modal="true"></div>
+
+        <div class="winner-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="winner-modal-title">
+            <button type="button" class="winner-modal__close" data-close-winner-modal="true" aria-label="Закрыть">
+                ×
+            </button>
+
+            <div class="winner-modal__icon-wrap">
+                <img src="/static/img/icon-gift.png" alt="" aria-hidden="true" class="winner-modal__icon" />
+            </div>
+
+            <h2 class="winner-modal__title" id="winner-modal-title">
+                Поздравляем!
+            </h2>
+
+            <p class="winner-modal__text">
+                Вы вошли в топ-15 рейтинга. Подойдите к стойке организаторов для получения подарка.
+            </p>
+
+            <button type="button" class="winner-modal__button" data-close-winner-modal="true">
+                Понятно
+            </button>
+        </div>
+    </div>
 </section>
+
+<script>
+    (function () {
+        const modal = document.getElementById("winner-modal");
+        const openButtons = document.querySelectorAll('[data-open-winner-modal="true"]');
+        const closeButtons = document.querySelectorAll('[data-close-winner-modal="true"]');
+
+        if (!modal || !openButtons.length) {
+            return;
+        }
+
+        const openModal = () => {
+            modal.classList.add("winner-modal--open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        };
+
+        const closeModal = () => {
+            modal.classList.remove("winner-modal--open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        };
+
+        openButtons.forEach((button) => {
+            button.addEventListener("click", openModal);
+        });
+
+        closeButtons.forEach((button) => {
+            button.addEventListener("click", closeModal);
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    })();
+</script>
 {% endblock %}

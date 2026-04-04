@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="activities-screen">
+    <img src="/static/img/decor-top-left.png" alt="" class="activities-screen__decor activities-screen__decor--top-left" aria-hidden="true" />
+    <img src="/static/img/decor-top-right.png" alt="" class="activities-screen__decor activities-screen__decor--top-right" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-left.png" alt="" class="activities-screen__decor activities-screen__decor--bottom-left" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-right.png" alt="" class="activities-screen__decor activities-screen__decor--bottom-right" aria-hidden="true" />
+
+    <div class="activities-screen__content">
+        <header class="activities-screen__header activities-screen__header--with-back">
+            <a href="/activities" class="activities-back">←</a>
+            <div class="activities-screen__header-center">
+                <h1 class="activities-screen__title">{{ category.title | replace('\n', '<br>') | safe }}</h1>
+            </div>
+        </header>
+
+        <section class="activities-task-list" aria-label="Задания категории">
+            {% for task in category.tasks %}
+                <article class="activities-task-card">
+                    <div class="activities-task-card__top">
+                        <div class="activities-task-card__title">
+                            {{ "%02d"|format(loop.index) }} {{ task.title }}
+                        </div>
+
+                        {% if task.is_joined %}
+                            <div class="activities-status activities-status--done">завершено</div>
+                        {% else %}
+                            <div class="activities-status">не пройдено</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="activities-task-card__meta">
+                        {% if category.badge_mode == "constructor" %}
+                            <span class="activities-chip">сбор: 5 баллов</span>
+                        {% else %}
+                            <span class="activities-chip">победа: 5 баллов</span>
+                            <span class="activities-chip">участие: 2 балла</span>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+</section>
+{% endblock %}

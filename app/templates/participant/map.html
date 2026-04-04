@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="map-screen">
+    <img src="/static/img/decor-top-left.png" alt="" class="map-screen__decor map-screen__decor--top-left" aria-hidden="true" />
+    <img src="/static/img/decor-top-right.png" alt="" class="map-screen__decor map-screen__decor--top-right" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-left.png" alt="" class="map-screen__decor map-screen__decor--bottom-left" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-right.png" alt="" class="map-screen__decor map-screen__decor--bottom-right" aria-hidden="true" />
+
+    <div class="map-screen__content">
+        <header class="map-screen__header">
+            <h1 class="map-screen__title">Карта<br>форума</h1>
+        </header>
+
+        <div class="map-board">
+            <img src="/static/img/map.png" alt="Карта форума" class="map-board__image" />
+
+            <button type="button" class="map-zone zone-main" data-zone="main" aria-label="Главный зал форума">
+                <img src="/static/img/main-hall.png" alt="" class="map-zone__image" aria-hidden="true" />
+            </button>
+
+            <button type="button" class="map-zone zone-constructor" data-zone="constructor" aria-label="Конструктор транзакций">
+                <img src="/static/img/constructor.png" alt="" class="map-zone__image" aria-hidden="true" />
+            </button>
+
+            <button type="button" class="map-zone zone-games" data-zone="games" aria-label="Финансовые игры">
+                <img src="/static/img/financial-games.png" alt="" class="map-zone__image" aria-hidden="true" />
+            </button>
+
+            <button type="button" class="map-zone zone-brand" data-zone="brand" aria-label="Бренд-зона НСПК">
+                <img src="/static/img/brand-zone.png" alt="" class="map-zone__image" aria-hidden="true" />
+            </button>
+
+            <button type="button" class="map-zone zone-lounge" data-zone="lounge" aria-label="Лаунж-зона">
+                <img src="/static/img/lounge-zone.png" alt="" class="map-zone__image" aria-hidden="true" />
+            </button>
+
+            <button type="button" class="map-zone zone-wc" data-zone="wc" aria-label="WC">
+                <img src="/static/img/wc.png" alt="" class="map-zone__image" aria-hidden="true" />
+            </button>
+        </div>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+
+    <div class="map-modal" id="map-modal" aria-hidden="true">
+        <div class="map-modal__backdrop" data-close-map-modal="true"></div>
+
+        <div class="map-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="map-modal-title">
+            <button type="button" class="map-modal__close" data-close-map-modal="true" aria-label="Закрыть">×</button>
+
+            <h2 class="map-modal__title" id="map-modal-title"></h2>
+            <div class="map-modal__body" id="map-modal-body"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        const zoneData = {{ zone_data | tojson }};
+        const modal = document.getElementById("map-modal");
+        const modalTitle = document.getElementById("map-modal-title");
+        const modalBody = document.getElementById("map-modal-body");
+        const zoneButtons = document.querySelectorAll(".map-zone");
+        const closeButtons = document.querySelectorAll("[data-close-map-modal='true']");
+
+        if (!modal || !modalTitle || !modalBody || !zoneButtons.length) {
+            return;
+        }
+
+        const openModal = (zoneKey) => {
+            const data = zoneData[zoneKey];
+            if (!data) return;
+
+            modalTitle.textContent = data.title;
+            modalBody.innerHTML = data.body;
+
+            modal.classList.add("map-modal--open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        };
+
+        const closeModal = () => {
+            modal.classList.remove("map-modal--open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        };
+
+        zoneButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                openModal(button.dataset.zone);
+            });
+        });
+
+        closeButtons.forEach((button) => {
+            button.addEventListener("click", closeModal);
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    })();
+</script>
+{% endblock %}

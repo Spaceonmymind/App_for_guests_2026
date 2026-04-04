@@ -42,3 +42,9 @@ class UserActivityRepository:
         self.db.commit()
         self.db.refresh(record)
         return record
+
+    def get_awarded_activity_ids_for_user(self, *, user_id: int) -> set[int]:
+        stmt = select(UserActivity.activity_id).where(
+            UserActivity.user_id == user_id,
+        )
+        return set(self.db.scalars(stmt).all())

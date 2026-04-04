@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="voting-screen">
+    <img src="/static/img/decor-top-left.png" alt="" class="voting-screen__decor voting-screen__decor--top-left" aria-hidden="true" />
+    <img src="/static/img/decor-top-right.png" alt="" class="voting-screen__decor voting-screen__decor--top-right" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-left.png" alt="" class="voting-screen__decor voting-screen__decor--bottom-left" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-right.png" alt="" class="voting-screen__decor voting-screen__decor--bottom-right" aria-hidden="true" />
+
+    <div class="voting-screen__content">
+        <header class="voting-screen__header">
+            <h1 class="voting-screen__title">Голосование</h1>
+        </header>
+
+        <form method="post" action="/voting" class="voting-form">
+            <section class="voting-list" aria-label="Проекты для голосования">
+                {% for item in projects %}
+                    <article class="voting-item">
+                        <label class="voting-item__radio-wrap">
+                            <input
+                                type="radio"
+                                name="project_id"
+                                value="{{ item.id }}"
+                                class="voting-item__radio"
+                                {% if existing_vote %}disabled{% endif %}
+                            />
+                            <span class="voting-item__radio-ui"></span>
+                        </label>
+
+                        <div class="voting-item__avatar">
+                            {% if item.photo_url %}
+                                <img src="{{ item.photo_url }}" alt="" class="voting-item__avatar-image" />
+                            {% else %}
+                                <div class="voting-item__avatar-placeholder"></div>
+                            {% endif %}
+                        </div>
+
+                        <div class="voting-item__main">
+                            <div class="voting-item__name">{{ item.participant_name }}</div>
+                            <div class="voting-item__project">Сервис «{{ item.project_name }}»</div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="voting-item__details"
+                            data-project-title="{{ item.participant_name }}"
+                            data-project-name="{{ item.project_name }}"
+                            data-project-description="{{ item.description }}"
+                        >
+                            подробнее
+                        </button>
+                    </article>
+                {% endfor %}
+            </section>
+
+            <div class="voting-form__actions">
+                <button
+                    type="submit"
+                    class="voting-submit"
+                    {% if existing_vote %}disabled{% endif %}
+                >
+                    отправить голос
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+
+    <div class="voting-modal" id="project-modal" aria-hidden="true">
+        <div class="voting-modal__backdrop" data-close-project-modal="true"></div>
+        <div class="voting-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+            <button type="button" class="voting-modal__close" data-close-project-modal="true" aria-label="Закрыть">×</button>
+            <h2 class="voting-modal__title" id="project-modal-title"></h2>
+            <div class="voting-modal__subtitle" id="project-modal-subtitle"></div>
+            <div class="voting-modal__body" id="project-modal-body"></div>
+        </div>
+    </div>
+
+    <div class="voting-modal {% if vote_success %}voting-modal--open{% endif %}" id="success-modal" aria-hidden="{% if vote_success %}false{% else %}true{% endif %}">
+        <div class="voting-modal__backdrop" data-close-success-modal="true"></div>
+        <div class="voting-modal__dialog voting-modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="success-modal-title">
+            <button type="button" class="voting-modal__close" data-close-success-modal="true" aria-label="Закрыть">×</button>
+            <h2 class="voting-modal__title" id="success-modal-title">Спасибо!</h2>
+            <div class="voting-modal__body">
+                <p>Ваш голос отправлен</p>
+            </div>
+        </div>
+    </div>
+
+    {% if vote_error %}
+        <div class="voting-modal voting-modal--open" id="error-modal" aria-hidden="false">
+            <div class="voting-modal__backdrop" data-close-error-modal="true"></div>
+            <div class="voting-modal__dialog voting-modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
+                <button type="button" class="voting-modal__close" data-close-error-modal="true" aria-label="Закрыть">×</button>
+                <h2 class="voting-modal__title" id="error-modal-title">Внимание</h2>
+                <div class="voting-modal__body">
+                    <p>{{ vote_error }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</section>
+
+<script>
+    (function () {
+        const projectModal = document.getElementById("project-modal");
+        const projectTitle = document.getElementById("project-modal-title");
+        const projectSubtitle = document.getElementById("project-modal-subtitle");
+        const projectBody = document.getElementById("project-modal-body");
+        const detailsButtons = document.querySelectorAll(".voting-item__details");
+
+        const openProjectModal = (button) => {
+            projectTitle.textContent = button.dataset.projectTitle || "";
+            projectSubtitle.textContent = "Сервис «" + (button.dataset.projectName || "") + "»";
+            projectBody.textContent = button.dataset.projectDescription || "";
+
+            projectModal.classList.add("voting-modal--open");
+            projectModal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        };
+
+        const closeModal = (modal) => {
+            if (!modal) return;
+            modal.classList.remove("voting-modal--open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        };
+
+        detailsButtons.forEach((button) => {
+            button.addEventListener("click", () => openProjectModal(button));
+        });
+
+        document.querySelectorAll("[data-close-project-modal='true']").forEach((button) => {
+            button.addEventListener("click", () => closeModal(projectModal));
+        });
+
+        const successModal = document.getElementById("success-modal");
+        document.querySelectorAll("[data-close-success-modal='true']").forEach((button) => {
+            button.addEventListener("click", () => closeModal(successModal));
+        });
+
+        const errorModal = document.getElementById("error-modal");
+        document.querySelectorAll("[data-close-error-modal='true']").forEach((button) => {
+            button.addEventListener("click", () => closeModal(errorModal));
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeModal(projectModal);
+                closeModal(successModal);
+                closeModal(errorModal);
+            }
+        });
+    })();
+</script>
+{% endblock %}

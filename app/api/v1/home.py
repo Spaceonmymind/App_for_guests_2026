@@ -35,9 +35,9 @@ def home_page(request: Request, db: Session = Depends(get_db)):
                 "code": user.code,
             },
             "menu_items": [
-                {"title": "Карта", "icon": "/static/img/icon-map.png", "href": "#"},
-                {"title": "Программа", "icon": "/static/img/icon-program.png", "href": "#"},
-                {"title": "Интерактивы", "icon": "/static/img/icon-activities.png", "href": "#"},
+                {"title": "Карта", "icon": "/static/img/icon-map.png", "href": "/map"},
+                {"title": "Программа", "icon": "/static/img/icon-program.png", "href": "/program"},
+                {"title": "Интерактивы", "icon": "/static/img/icon-activities.png", "href": "/activities"},
                 {"title": "Рейтинг", "icon": "/static/img/icon-rating.png", "href": "/rating"},
                 {"title": "Голосование", "icon": "/static/img/icon-voting.png", "href": "#"},
             ],

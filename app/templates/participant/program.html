@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="program-screen">
+    <img src="/static/img/decor-top-left.png" alt="" class="program-screen__decor program-screen__decor--top-left" aria-hidden="true" />
+    <img src="/static/img/decor-top-right.png" alt="" class="program-screen__decor program-screen__decor--top-right" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-left.png" alt="" class="program-screen__decor program-screen__decor--bottom-left" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-right.png" alt="" class="program-screen__decor program-screen__decor--bottom-right" aria-hidden="true" />
+
+    <div class="program-screen__content">
+        <header class="program-screen__header">
+            <p class="program-screen__caption">Программа</p>
+            <h1 class="program-screen__title">Программа</h1>
+        </header>
+
+        <section class="program-filters">
+            <div class="program-filters__row">
+                {% for tab in date_tabs %}
+                    <a
+                        href="/program?date={{ tab.value }}&hall={{ current_hall }}"
+                        class="program-pill {% if tab.is_active %}program-pill--active{% endif %}"
+                    >
+                        {{ tab.label }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="program-halls">
+                <div class="program-halls__row">
+                    {% for hall_tab in hall_tabs[:2] %}
+                        <a
+                            href="/program?date={{ current_date }}&hall={{ hall_tab.code }}"
+                            class="program-pill program-pill--secondary {% if hall_tab.is_active %}program-pill--active-secondary{% endif %}"
+                        >
+                            {{ hall_tab.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <div class="program-halls__row">
+                    {% for hall_tab in hall_tabs[2:] %}
+                        <a
+                            href="/program?date={{ current_date }}&hall={{ hall_tab.code }}"
+                            class="program-pill program-pill--secondary {% if hall_tab.is_active %}program-pill--active-secondary{% endif %}"
+                        >
+                            {{ hall_tab.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="program-list" aria-label="Расписание">
+            {% if current_hall == "brand-zone" %}
+                {% for group in session_groups %}
+                    <div class="program-section">
+                        <div class="program-section__title">{{ group["title"] }}</div>
+
+                        {% for item in group["items"] %}
+                            <article class="program-item program-item--card {% if loop.last %}program-item--card-last{% endif %}">
+                                <div class="program-item__time">
+                                    {% if item.start_time == item.end_time %}
+                                        {{ item.start_time.strftime("%-H:%M") }}
+                                    {% else %}
+                                        {{ item.start_time.strftime("%-H:%M") }}-{{ item.end_time.strftime("%-H:%M") }}
+                                    {% endif %}
+                                </div>
+
+                                <div class="program-item__main">
+                                    <div class="program-item__title">{{ item.title }}</div>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for item in sessions %}
+                    <article class="program-item">
+                        <div class="program-item__time">
+                            {{ item.start_time.strftime("%-H:%M") }}-{{ item.end_time.strftime("%-H:%M") }}
+                        </div>
+
+                        <div class="program-item__main">
+                            <div class="program-item__title">{{ item.title }}</div>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% endif %}
+        </section>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+</section>
+{% endblock %}

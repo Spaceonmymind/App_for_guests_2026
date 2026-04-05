@@ -29,7 +29,6 @@
 
     <div class="auth-screen__content">
         <header class="auth-screen__top">
-            <p class="auth-screen__caption">Авторизация</p>
         </header>
 
         <section class="auth-screen__brand">
@@ -47,17 +46,19 @@
             </p>
 
             <form class="auth-form-new" method="post" action="/auth/login">
-                <label class="auth-form-new__label" for="code">Код участника</label>
+                <label class="auth-form-new__label" for="code">Код с ваучера</label>
 
                 <input
                     id="code"
                     class="auth-form-new__input"
                     type="text"
                     name="code"
-                    placeholder="12345"
+                    placeholder="A7K91Q"
                     maxlength="9"
-                    inputmode="numeric"
+                    inputmode="text"
+                    autocapitalize="characters"
                     autocomplete="one-time-code"
+                    spellcheck="false"
                     value="{{ entered_code or '' }}"
                 />
 
@@ -68,7 +69,6 @@
                 <button type="submit" class="auth-form-new__button">
                     Войти
                 </button>
-
             </form>
         </section>
     </div>

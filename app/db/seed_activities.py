@@ -10,14 +10,17 @@ ACTIVITIES = [
     {"name": "Накопи на мечту", "points_participation": 2, "points_win": 5},
     {"name": "Мамин инвестор", "points_participation": 2, "points_win": 5},
     {"name": "Жажда власти", "points_participation": 2, "points_win": 5},
+
     {"name": "ПС Мир", "points_participation": 5, "points_win": 5},
     {"name": "СБП", "points_participation": 5, "points_win": 5},
     {"name": "Блокчейн", "points_participation": 5, "points_win": 5},
     {"name": "3D-Secure", "points_participation": 5, "points_win": 5},
+
     {"name": "Финтех-гуру", "points_participation": 2, "points_win": 5},
     {"name": "Мир идей", "points_participation": 2, "points_win": 5},
-    {"name": "Квиз Мир Mir.Platform", "points_participation": 2, "points_win": 5},
+    {"name": "Квиз Мир Plat.Form", "points_participation": 2, "points_win": 5},
     {"name": "Прожарка резюме", "points_participation": 2, "points_win": 5},
+
     {"name": "Мастер-опрос", "points_participation": 10, "points_win": 10},
     {"name": "Голосование за лучший проект", "points_participation": 10, "points_win": 10},
 ]

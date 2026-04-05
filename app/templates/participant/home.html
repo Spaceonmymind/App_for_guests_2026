@@ -29,7 +29,6 @@
 
     <div class="home-screen__content">
         <header class="home-screen__top">
-            <p class="home-screen__caption">Главное меню</p>
         </header>
 
         <section class="home-screen__brand">
@@ -56,7 +55,9 @@
 
     <footer class="home-profile">
         <div class="home-profile__left">
-            <div class="home-profile__avatar"></div>
+            <div class="home-profile__avatar">
+                <img src="/static/img/icon-user.png" alt="" class="home-profile__avatar-image" />
+            </div>
             <div class="home-profile__meta">
                 <div class="home-profile__name">{{ user.first_name }} {{ user.last_name }}</div>
                 <div class="home-profile__role">{{ user.role_label }}</div>

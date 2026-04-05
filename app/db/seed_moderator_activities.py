@@ -7,19 +7,19 @@ from app.models.user import User
 
 BINDINGS = [
     {
-        "moderator_code": "11111",
+        "moderator_code": "111111",
         "activity_names": [
             "Юный инвестор",
         ],
     },
     {
-        "moderator_code": "22222",
+        "moderator_code": "222222",
         "activity_names": [
             "Финансовый детектив",
         ],
     },
     {
-        "moderator_code": "33333",
+        "moderator_code": "333333",
         "activity_names": [
             "ПС Мир",
             "Блокчейн",

@@ -31,7 +31,7 @@ class AdminManualAwardService:
         if admin is None or admin.role != UserRole.ADMIN.value:
             raise AdminManualAwardError("Нет доступа к ручной корректировке баллов.")
 
-        participant = self.user_repo.get_by_code(participant_code)
+        participant = self.user_repo.get_by_score_code(participant_code)
         if participant is None:
             raise AdminManualAwardError("Участник с таким кодом не найден.")
 

@@ -49,12 +49,24 @@
                                 {{ "%02d"|format(loop.index) }}
                             </div>
 
-                            {% if item.badge_mode == "poll" or item.badge_mode == "vote" %}
-                                <div class="activities-category-card__points-text">10 баллов</div>
-                            {% elif item.completed_count == item.tasks_count and item.tasks_count > 0 %}
-                                <div class="activities-status activities-status--done">завершено</div>
+                            {% if item.badge_mode == "poll" %}
+                                {% if item.is_completed %}
+                                    <div class="activities-status activities-status--done">пройдено</div>
+                                {% else %}
+                                    <div class="activities-status">не пройдено</div>
+                                {% endif %}
+                            {% elif item.badge_mode == "vote" %}
+                                {% if item.is_completed %}
+                                    <div class="activities-status activities-status--done">пройдено</div>
+                                {% else %}
+                                    <div class="activities-status">не пройдено</div>
+                                {% endif %}
                             {% else %}
-                                <div class="activities-status">не пройдено</div>
+                                {% if item.completed_count == item.tasks_count and item.tasks_count > 0 %}
+                                    <div class="activities-status activities-status--done">пройдено</div>
+                                {% else %}
+                                    <div class="activities-status">не пройдено</div>
+                                {% endif %}
                             {% endif %}
                         </div>
 
@@ -68,16 +80,16 @@
                             </div>
                         {% endif %}
 
-                        {% if item.badge_mode != "vote" and item.badge_mode != "poll" %}
-                            <div class="activities-category-card__meta">
-                                {% if item.badge_mode == "constructor" %}
-                                    <span class="activities-chip">сбор: 5 баллов</span>
-                                {% else %}
-                                    <span class="activities-chip">победа: 5 баллов</span>
-                                    <span class="activities-chip">участие: 2 балла</span>
-                                {% endif %}
-                            </div>
-                        {% endif %}
+                        <div class="activities-category-card__meta">
+                            {% if item.badge_mode == "constructor" %}
+                                <span class="activities-chip">сбор: 5 баллов</span>
+                            {% elif item.badge_mode == "poll" or item.badge_mode == "vote" %}
+                                <span class="activities-chip">участие: 10 баллов</span>
+                            {% else %}
+                                <span class="activities-chip">победа: 5 баллов</span>
+                                <span class="activities-chip">участие: 2 балла</span>
+                            {% endif %}
+                        </div>
 
                 {% if item.slug == "master-poll" or item.slug == "best-project-vote" or item.is_clickable %}
                     </a>

@@ -1,7 +1,10 @@
 from dataclasses import dataclass
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.models.master_poll_response import MasterPollResponse
+from app.models.vote import Vote
 from app.repositories.activity_repository import ActivityRepository
 from app.repositories.user_activity_repository import UserActivityRepository
 
@@ -25,7 +28,8 @@ class ActivityCategoryView:
     completed_count: int
     tasks: list[ActivityTaskView]
     is_clickable: bool
-    badge_mode: str  # "standard" | "constructor"
+    badge_mode: str
+    is_completed: bool = False
 
 
 class ActivitiesCatalogService:
@@ -33,6 +37,16 @@ class ActivitiesCatalogService:
         self.db = db
         self.activity_repo = ActivityRepository(db)
         self.user_activity_repo = UserActivityRepository(db)
+
+    def _is_master_poll_completed(self, user_id: int) -> bool:
+        return self.db.scalar(
+            select(MasterPollResponse).where(MasterPollResponse.user_id == user_id)
+        ) is not None
+
+    def _is_best_project_vote_completed(self, user_id: int) -> bool:
+        return self.db.scalar(
+            select(Vote).where(Vote.user_id == user_id)
+        ) is not None
 
     def _build_catalog(self, user_id: int) -> list[ActivityCategoryView]:
         activities = self.activity_repo.get_all()
@@ -121,38 +135,24 @@ class ActivitiesCatalogService:
             ),
         }
 
-        financial_titles = [
-            "Финансовая игра 1",
-            "Финансовая игра 2",
-            "Финансовая игра 3",
-            "Финансовая игра 4",
-            "Финансовая игра 5",
-            "Финансовая игра 6",
-        ]
-        financial_task_titles = [
-            "Игра «Юный инвестор»",
-            "Игра «Инновационный ширпотреб»",
-            "Игра «Финансовый детектив»",
-            "Игра «Накопи на мечту»",
-            "Игра «Мамин инвестор»",
-            "Игра «Жажда власти»",
-        ]
+        grouped["master-poll"].is_completed = self._is_master_poll_completed(user_id)
+        grouped["best-project-vote"].is_completed = self._is_best_project_vote_completed(user_id)
 
-        constructor_titles = [
-            "Конструктор транзакций 1",
-            "Конструктор транзакций 2",
-            "Конструктор транзакций 3",
-            "Конструктор транзакций 4",
-        ]
-        constructor_task_titles = [
-            "ПС Мир",
-            "СБП",
-            "Блокчейн",
-            "3D-Secure",
-        ]
+        financial_map = {
+            "Юный инвестор": "Игра «Юный инвестор»",
+            "Инновационный ширпотреб": "Игра «Инновационный ширпотреб»",
+            "Финансовый детектив": "Игра «Финансовый детектив»",
+            "Накопи на мечту": "Игра «Накопи на мечту»",
+            "Мамин инвестор": "Игра «Мамин инвестор»",
+            "Жажда власти": "Игра «Жажда власти»",
+        }
 
-        financial_map = dict(zip(financial_titles, financial_task_titles))
-        constructor_map = dict(zip(constructor_titles, constructor_task_titles))
+        constructor_map = {
+            "ПС Мир": "ПС Мир",
+            "СБП": "СБП",
+            "Блокчейн": "Блокчейн",
+            "3D-Secure": "3D-Secure",
+        }
 
         for activity in activities:
             is_joined = activity.id in joined_ids
@@ -173,7 +173,7 @@ class ActivitiesCatalogService:
                 category = grouped["ideas-world"]
                 task_title = "Мир идей"
                 subtitle = ""
-            elif activity.name == "Квиз":
+            elif activity.name == "Квиз Мир Plat.Form":
                 category = grouped["quiz"]
                 task_title = "Квиз Мир Plat.Form"
                 subtitle = ""
@@ -199,6 +199,12 @@ class ActivitiesCatalogService:
             if is_joined:
                 category.completed_count += 1
 
+        for category in grouped.values():
+            if category.badge_mode not in {"poll", "vote"}:
+                category.is_completed = (
+                    category.tasks_count > 0 and category.completed_count == category.tasks_count
+                )
+
         return list(grouped.values())
 
     def get_category(self, user_id: int, slug: str) -> ActivityCategoryView | None:
@@ -209,3 +215,4 @@ class ActivitiesCatalogService:
 
     def get_categories(self, user_id: int) -> list[ActivityCategoryView]:
         return self._build_catalog(user_id)
+

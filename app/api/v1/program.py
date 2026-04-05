@@ -44,11 +44,6 @@ def program_page(
     if isinstance(current_user, RedirectResponse):
         return current_user
 
-    current_user = UserRepository(db).get_by_id(user_id)
-    if current_user is None:
-        request.session.clear()
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
-
     repo = ProgramRepository(db)
 
     dates = repo.get_available_dates()

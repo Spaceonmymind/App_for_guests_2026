@@ -8,37 +8,39 @@
     <img src="/static/img/decor-bottom-right.png" alt="" class="voting-screen__decor voting-screen__decor--bottom-right" aria-hidden="true" />
 
     <div class="voting-screen__content">
-        <header class="voting-screen__header">
-            <h1 class="voting-screen__title">Голосование</h1>
+        <header class="screen-header">
+            <h1 class="screen-title">Голосование</h1>
         </header>
 
         <form method="post" action="/voting" class="voting-form">
             <section class="voting-list" aria-label="Проекты для голосования">
                 {% for item in projects %}
                     <article class="voting-item">
-                        <label class="voting-item__radio-wrap">
-                            <input
-                                type="radio"
-                                name="project_id"
-                                value="{{ item.id }}"
-                                class="voting-item__radio"
-                                {% if existing_vote %}disabled{% endif %}
-                            />
-                            <span class="voting-item__radio-ui"></span>
+                        <label class="voting-item__select-area">
+                            <span class="voting-item__radio-wrap">
+                                <input
+                                    type="radio"
+                                    name="project_id"
+                                    value="{{ item.id }}"
+                                    class="voting-item__radio"
+                                    {% if existing_vote %}disabled{% endif %}
+                                />
+                                <span class="voting-item__radio-ui"></span>
+                            </span>
+
+                            <div class="voting-item__avatar">
+                                {% if item.photo_url %}
+                                    <img src="{{ item.photo_url }}" alt="" class="voting-item__avatar-image" />
+                                {% else %}
+                                    <div class="voting-item__avatar-placeholder"></div>
+                                {% endif %}
+                            </div>
+
+                            <div class="voting-item__main">
+                                <div class="voting-item__name">{{ item.participant_name }}</div>
+                                <div class="voting-item__project">Сервис «{{ item.project_name }}»</div>
+                            </div>
                         </label>
-
-                        <div class="voting-item__avatar">
-                            {% if item.photo_url %}
-                                <img src="{{ item.photo_url }}" alt="" class="voting-item__avatar-image" />
-                            {% else %}
-                                <div class="voting-item__avatar-placeholder"></div>
-                            {% endif %}
-                        </div>
-
-                        <div class="voting-item__main">
-                            <div class="voting-item__name">{{ item.participant_name }}</div>
-                            <div class="voting-item__project">Сервис «{{ item.project_name }}»</div>
-                        </div>
 
                         <button
                             type="button"

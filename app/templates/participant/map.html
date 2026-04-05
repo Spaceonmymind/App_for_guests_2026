@@ -8,36 +8,43 @@
     <img src="/static/img/decor-bottom-right.png" alt="" class="map-screen__decor map-screen__decor--bottom-right" aria-hidden="true" />
 
     <div class="map-screen__content">
-        <header class="map-screen__header">
-            <h1 class="map-screen__title">Карта<br>форума</h1>
+        <header class="screen-header">
+            <h1 class="screen-title">Карта форума</h1>
         </header>
-
         <div class="map-board">
-            <img src="/static/img/map.png" alt="Карта форума" class="map-board__image" />
+            <div class="map-board__stage">
+                <img src="/static/img/map.png" alt="Карта форума" class="map-board__image" />
 
-            <button type="button" class="map-zone zone-main" data-zone="main" aria-label="Главный зал форума">
-                <img src="/static/img/main-hall.png" alt="" class="map-zone__image" aria-hidden="true" />
-            </button>
+                <button type="button" class="map-zone zone-main" data-zone="main" aria-label="Главный зал форума">
+                    <img src="/static/img/main-hall.png" alt="" class="map-zone__image" aria-hidden="true" />
+                    <div class="map-zone__label">Главный зал форума</div>
+                </button>
 
-            <button type="button" class="map-zone zone-constructor" data-zone="constructor" aria-label="Конструктор транзакций">
-                <img src="/static/img/constructor.png" alt="" class="map-zone__image" aria-hidden="true" />
-            </button>
+                <button type="button" class="map-zone zone-constructor" data-zone="constructor" aria-label="Конструктор транзакций">
+                    <img src="/static/img/constructor.png" alt="" class="map-zone__image" aria-hidden="true" />
+                    <div class="map-zone__label">Конструктор<br>транзакций</div>
+                </button>
 
-            <button type="button" class="map-zone zone-games" data-zone="games" aria-label="Финансовые игры">
-                <img src="/static/img/financial-games.png" alt="" class="map-zone__image" aria-hidden="true" />
-            </button>
+                <button type="button" class="map-zone zone-games" data-zone="games" aria-label="Финансовые игры">
+                    <img src="/static/img/financial-games.png" alt="" class="map-zone__image" aria-hidden="true" />
+                    <div class="map-zone__label">Финансовые<br>игры</div>
+                </button>
 
-            <button type="button" class="map-zone zone-brand" data-zone="brand" aria-label="Бренд-зона НСПК">
-                <img src="/static/img/brand-zone.png" alt="" class="map-zone__image" aria-hidden="true" />
-            </button>
+                <button type="button" class="map-zone zone-brand" data-zone="brand" aria-label="Бренд-зона НСПК">
+                    <img src="/static/img/brand-zone.png" alt="" class="map-zone__image" aria-hidden="true" />
+                    <div class="map-zone__label">Бренд-зона<br>НСПК</div>
+                </button>
 
-            <button type="button" class="map-zone zone-lounge" data-zone="lounge" aria-label="Лаунж-зона">
-                <img src="/static/img/lounge-zone.png" alt="" class="map-zone__image" aria-hidden="true" />
-            </button>
+                <button type="button" class="map-zone zone-lounge" data-zone="lounge" aria-label="Лаунж-зона">
+                    <img src="/static/img/lounge-zone.png" alt="" class="map-zone__image" aria-hidden="true" />
+                    <div class="map-zone__label">Лаунж-зона</div>
+                </button>
 
-            <button type="button" class="map-zone zone-wc" data-zone="wc" aria-label="WC">
-                <img src="/static/img/wc.png" alt="" class="map-zone__image" aria-hidden="true" />
-            </button>
+                <button type="button" class="map-zone zone-wc" data-zone="wc" aria-label="WC">
+                    <img src="/static/img/wc.png" alt="" class="map-zone__image" aria-hidden="true" />
+                    <div class="map-zone__label">WC</div>
+                </button>
+            </div>
         </div>
     </div>
 

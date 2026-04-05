@@ -270,7 +270,7 @@ SESSIONS = [
     {
         "session_date": date(2026, 4, 9),
         "hall_code": "transaction-constructor",
-        "hall_name": "Зал конструктора транзакций",
+        "hall_name": "Зал транзакций",
         "title": "Сбор транзакций",
         "start_time": time(9, 30),
         "end_time": time(11, 30),
@@ -279,7 +279,7 @@ SESSIONS = [
     {
         "session_date": date(2026, 4, 9),
         "hall_code": "transaction-constructor",
-        "hall_name": "Зал конструктора транзакций",
+        "hall_name": "Зал транзакций",
         "title": "Сбор транзакций",
         "start_time": time(13, 40),
         "end_time": time(15, 0),
@@ -291,7 +291,7 @@ SESSIONS = [
     {
         "session_date": date(2026, 4, 10),
         "hall_code": "transaction-constructor",
-        "hall_name": "Зал конструктора транзакций",
+        "hall_name": "Зал транзакций",
         "title": "Сбор транзакций",
         "start_time": time(11, 0),
         "end_time": time(13, 0),

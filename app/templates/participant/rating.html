@@ -28,14 +28,13 @@
     />
 
     <div class="rating-screen__content">
-        <header class="rating-screen__header">
-            <p class="rating-screen__caption">Рейтинг</p>
-            <h1 class="rating-screen__title">Рейтинг</h1>
+        <header class="screen-header screen-header--with-action">
+            <h1 class="screen-title">Рейтинг</h1>
 
             {% if rating_is_finalized %}
                 <button
                     type="button"
-                    class="rating-screen__gift-button {% if not current_user_is_winner %}rating-screen__gift-button--disabled{% endif %}"
+                    class="rating-gift-button {% if not current_user_is_winner %}rating-gift-button--disabled{% endif %}"
                     {% if current_user_is_winner %}
                         data-open-winner-modal="true"
                     {% else %}
@@ -43,9 +42,9 @@
                     {% endif %}
                     aria-label="Информация о награждении"
                 >
-                    <img src="/static/img/icon-gift.png" alt="" aria-hidden="true" class="rating-screen__gift-icon" />
+                    <img src="/static/img/icon-gift.png" class="rating-gift-icon" />
                     {% if current_user_is_winner %}
-                        <span class="rating-screen__gift-badge">!</span>
+                        <span class="rating-gift-badge">!</span>
                     {% endif %}
                 </button>
             {% endif %}
@@ -58,10 +57,6 @@
 
                     <div class="rating-item__place">
                         {{ "%02d"|format(item.place) }}
-                    </div>
-
-                    <div class="rating-item__avatar">
-                        <img src="/static/img/icon-user-character.png" alt="" aria-hidden="true" class="rating-item__avatar-icon" />
                     </div>
 
                     <div class="rating-item__main">

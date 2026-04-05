@@ -744,6 +744,49 @@
     color: #fff;
 }
 
+/* кнопка справа */
+.rating-gift-button {
+    position: absolute;
+    right: 0;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+/* иконка */
+.rating-gift-icon {
+    width: 20px;
+}
+
+/* бейдж */
+.rating-gift-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #C22FDE;
+}
+
+/* disabled */
+.rating-gift-button--disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
 .bottom-nav {
     position: absolute;
     left: 0;
@@ -858,7 +901,7 @@
     height: 100vh;
     height: 100dvh;
     padding:
-        calc(env(safe-area-inset-top, 0px) + 42px)
+        calc(env(safe-area-inset-top, 0px) + 6px)
         16px
         calc(env(safe-area-inset-bottom, 0px) + 88px)
         16px;
@@ -1339,12 +1382,13 @@
 .program-item {
     display: flex;
     gap: 14px;
+    align-items: flex-start;
     padding: 12px 4px 12px 4px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .program-item__time {
-    flex: 0 0 112px;
+    flex: 0 0 auto;
     width: 112px;
     min-width: 112px;
     max-width: 112px;
@@ -1360,6 +1404,8 @@
     font-weight: 700;
     line-height: 1;
     white-space: nowrap;
+    height: fit-content;
+    align-self: flex-start;
 }
 
 .program-item__main {
@@ -1757,32 +1803,76 @@
 }
 
 .map-board {
-    position: relative;
-    z-index: 1;
     width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
+    height: calc(100vh - 220px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
-.map-board__image {
-    width: 100%;
-    height: auto;
-    display: block;
-    z-index: 1;
+.map-board__stage {
     position: relative;
+    height: 100%;
+    aspect-ratio: 690 / 1536;
+    max-width: 100%;
 }
+
+
+.map-board__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.map-zone__label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 0 10px rgba(0,0,0,0.8),
+        0 2px 4px rgba(0,0,0,0.8);
+}
+
+.zone-brand .map-zone__label {
+    left: 33%;
+    top: 54%;
+}
+
+.zone-lounge .map-zone__label {
+    left: 53%;
+    top: 43%;
+}
+
+.zone-games .map-zone__label {
+    left: 45%;
+    top: 50%;
+}
+
 
 .map-zone {
     position: absolute;
-    z-index: 5;
     border: none;
     background: transparent;
     padding: 0;
     margin: 0;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    pointer-events: auto;
-    transition: transform 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
+}
+
+.map-zone__image {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .map-zone:hover,
@@ -1792,25 +1882,15 @@
 }
 
 .map-zone:active {
-    transform: scale(0.995);
+    transform: scale(0.96);
 }
 
-.map-zone__image {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: contain;
-    pointer-events: none;
-    filter: drop-shadow(0 0 10px rgba(210, 44, 255, 0.28));
-    opacity: 0.7;
-}
 
-/* Подгонишь потом идеально, но старт уже близкий */
 .zone-main {
     top: 0%;
-    left: 32%;
-    width: 60%;
-    height: 27%;
+    left: 36.5%;
+    width: 50%;
+    height: 30%;
 }
 
 .zone-wc {
@@ -1821,32 +1901,32 @@
 }
 
 .zone-constructor {
-    top: 37%;
+    top: 44%;
     left: 3%;
-    width: 36%;
-    height: 26%;
+    width: 37.6%;
+    height: 12.5%;
     z-index: 20;
 }
 
 .zone-games {
-    top: 53.5%;
+    top: 55.6%;
     left: 3%;
-    width: 39%;
-    height: 26%;
+    width: 38%;
+    height: 23%;
 }
 
 .zone-brand {
-    top: 69%;
+    top: 75%;
     left: 25%;
-    width: 45%;
-    height: 35%;
+    width: 44%;
+    height: 24%;
 }
 
 .zone-lounge {
-    top: 59%;
-    left: 55%;
-    width: 40%;
-    height: 25%;
+    top: 62%;
+    left: 62%;
+    width: 35%;
+    height: 21%;
 }
 
 .map-modal {
@@ -2075,12 +2155,23 @@
 }
 
 .voting-item {
-    display: grid;
-    grid-template-columns: 24px 44px 1fr auto;
+    display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 104px;
+    padding: 18px 28px;
+    box-sizing: border-box;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.voting-item__select-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
 }
 
 .voting-item:last-child {
@@ -2140,6 +2231,7 @@
 
 .voting-item__main {
     min-width: 0;
+    flex: 1 1 auto;
 }
 
 .voting-item__name {
@@ -2293,9 +2385,9 @@
     }
 
     .voting-item {
-        grid-template-columns: 22px 40px 1fr auto;
-        gap: 10px;
-        padding: 12px 14px;
+        gap: 12px;
+        padding: 14px 16px;
+        min-height: 88px;
     }
 
     .voting-item__avatar {
@@ -2422,8 +2514,8 @@
 }
 
 .poll-screen__header--question {
-    padding-top: 6px;
-    padding-bottom: 12px;
+    width: 100%;
+    padding: 0 12px;
 }
 
 .poll-screen__title {
@@ -2436,9 +2528,20 @@
 }
 
 .poll-screen__title--small {
-    font-size: 28px;
-    font-weight: 500;
-    line-height: 1.15;
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: clamp(20px, 6vw, 26px);
+    line-height: 1.1;
+
+    white-space: normal;
+
+    text-align: center;
+}
+
+.poll-screen .screen-title.poll-screen__title--small {
+    font-size: clamp(20px, 5.5vw, 28px) !important;
+    line-height: 1.1;
 }
 
 .poll-screen__center {
@@ -2455,12 +2558,11 @@
 }
 
 .poll-screen__topic--start {
-    font-size: 38px;
-    line-height: 1.2;
+    font-size: clamp(26px, 5vw, 32px);
+    line-height: 1.15;
     font-weight: 400;
     max-width: 92%;
 }
-
 .poll-screen__topic--result {
     font-size: 34px;
     line-height: 1.15;

@@ -83,16 +83,18 @@ a {
 .screen-title {
     font-size: 32px;
     font-weight: 700;
-    color: #1C1C3A;
+    color: #fff;
 
-    background: #fff;
-    padding: 10px 18px;
-    border-radius: 14px;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
 
     line-height: 1.1;
     text-align: center;
 
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    text-shadow:
+        0 2px 8px rgba(0,0,0,0.6);
 }
 .screen-header--with-action {
     position: relative;

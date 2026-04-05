@@ -58,10 +58,14 @@
             <div class="voting-form__actions">
                 <button
                     type="submit"
-                    class="voting-submit"
+                    class="voting-submit {% if existing_vote %}voting-submit--done{% endif %}"
                     {% if existing_vote %}disabled{% endif %}
                 >
-                    отправить голос
+                    {% if existing_vote %}
+                        Ваш голос учтен
+                    {% else %}
+                        отправить голос
+                    {% endif %}
                 </button>
             </div>
         </form>

@@ -19,9 +19,11 @@ def get_admin_award_options(activity_name: str) -> list[dict]:
     }
 
     participation_only = {
-        "Прожарка резюме",
         "Мастер-опрос",
         "Голосование за лучший проект",
+    }
+    winner_only = {
+        "Прожарка резюме",
     }
 
     if activity_name in financial_games:
@@ -38,6 +40,11 @@ def get_admin_award_options(activity_name: str) -> list[dict]:
     if activity_name in participation_only:
         return [
             {"value": "participation", "label": "Участие", "points_source": "points_participation"},
+        ]
+
+    if activity_name in winner_only:
+        return [
+            {"value": "winner", "label": "Победа", "points_source": "points_win"},
         ]
 
     return []

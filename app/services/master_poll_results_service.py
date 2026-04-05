@@ -6,9 +6,9 @@ POLL_STEPS = [
         "index": "1",
         "title": "Инновации",
         "answers": [
-            "А) меня захватывает всё новое, я стремлюсь изучить это даже, если сначала освоить это кажется сложным",
-            "Б) если инновация понятна для меня и легко доступна, то я ей воспользуюсь, в ином случае быстро потеряю интерес",
-            "В) я очень избирательно отношусь к инновациям, предпочитаю сначала посмотреть как они используются другими, отзывы о них, обзоры по опыту их применения",
+            "А) Меня захватывает всё новое, я стремлюсь изучить это даже, если сначала освоить это кажется сложным",
+            "Б) Если инновация понятна для меня и легко доступна, то я ей воспользуюсь, в ином случае быстро потеряю интерес",
+            "В) Я очень избирательно отношусь к инновациям, предпочитаю сначала посмотреть как они используются другими, отзывы о них, обзоры по опыту их применения",
         ],
     },
     {
@@ -76,7 +76,27 @@ class MasterPollResultsService:
                         "percent": percent,
                     }
                 )
+            segments = []
+            current_percent = 0
 
+            segment_colors = ["#C22FDE", "#7C4DFF", "#4FC3F7"]
+
+            for index, item in enumerate(chart_items):
+                percent = item["percent"]
+                color = segment_colors[index % len(segment_colors)]
+
+                start = current_percent
+                end = current_percent + percent
+
+                if percent > 0:
+                    segments.append(f"{color} {start}% {end}%")
+
+                current_percent = end
+
+            if not segments:
+                chart_gradient = "rgba(255,255,255,0.12) 0% 100%"
+            else:
+                chart_gradient = ", ".join(segments)
             result.append(
                 {
                     "title": step["title"],
@@ -84,6 +104,7 @@ class MasterPollResultsService:
                     "total_answers": total_answers,
                     "total_respondents": total_respondents,
                     "items": chart_items,
+                    "chart_gradient": chart_gradient,
                 }
             )
 

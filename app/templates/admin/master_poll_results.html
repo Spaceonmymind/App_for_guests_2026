@@ -18,21 +18,31 @@
                         Ответов: {{ result["total_answers"] }}
                     </div>
 
-                    <div class="poll-chart">
-                        {% for item in result["items"] %}
-                            <div class="poll-chart__item">
-                                <div
-                                    class="poll-chart__circle"
-                                    style="--percent: {{ item["percent"] }};"
-                                >
-                                    <span class="poll-chart__percent">{{ item["percent"] }}%</span>
-                                </div>
-
-                                <div class="poll-chart__label">{{ item["label"] }}</div>
-                                <div class="poll-chart__text">{{ item["full_text"] }}</div>
-                                <div class="poll-chart__count">Голосов: {{ item["count"] }}</div>
+                    <div class="poll-chart poll-chart--single">
+                        <div
+                            class="poll-chart__circle poll-chart__circle--single"
+                            style='background: conic-gradient({{ result["chart_gradient"] }});'
+                        >
+                            <div class="poll-chart__center">
+                                <div class="poll-chart__center-value">{{ result["total_answers"] }}</div>
+                                <div class="poll-chart__center-text">ответов</div>
                             </div>
-                        {% endfor %}
+                        </div>
+
+                        <div class="poll-chart__legend">
+                            {% for item in result["items"] %}
+                                <div class="poll-chart__legend-item">
+                                    <div class="poll-chart__legend-top">
+                                        <span class="poll-chart__legend-label poll-chart__legend-label--{{ loop.index }}">
+                                            {{ item["label"] }}
+                                        </span>
+                                        <span class="poll-chart__legend-percent">{{ item["percent"] }}%</span>
+                                    </div>
+                                    <div class="poll-chart__text">{{ item["full_text"] }}</div>
+                                    <div class="poll-chart__count">Голосов: {{ item["count"] }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}

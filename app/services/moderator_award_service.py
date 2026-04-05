@@ -61,13 +61,21 @@ class ModeratorAwardService:
         if award_type not in allowed_award_types:
             raise ModeratorAwardError("Для этой активности такой тип начисления недоступен.")
 
-        existing_award = self.user_activity_repo.get_existing_award(
+        all_awards = self.user_activity_repo.get_awards_for_user_activity(
             user_id=participant.id,
             activity_id=activity.id,
-            award_type=award_type,
         )
-        if existing_award is not None:
+
+        existing_award_types = {item.award_type for item in all_awards}
+
+        if award_type in existing_award_types:
             raise ModeratorAwardError("Такое начисление этому участнику уже было сделано.")
+
+        if award_type == "winner" and "participation" in existing_award_types:
+            raise ModeratorAwardError("Нельзя начислить победу: участнику уже начислено участие.")
+
+        if award_type == "participation" and "winner" in existing_award_types:
+            raise ModeratorAwardError("Нельзя начислить участие: участнику уже начислена победа.")
 
         points = self._get_points(activity=activity, award_type=award_type)
 

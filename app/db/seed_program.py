@@ -286,6 +286,73 @@ SESSIONS = [
         "sort_order": 20,
     },
 
+    # 10 апреля — Бренд-зона, Секция 1
+    {
+        "session_date": date(2026, 4, 10),
+        "hall_code": "brand-zone",
+        "hall_name": "Бренд-зона",
+        "title": "Финтех-гуру",
+        "section_title": "Секция 1",
+        "start_time": time(11, 0),
+        "end_time": time(13, 0),
+        "sort_order": 10,
+    },
+    {
+        "session_date": date(2026, 4, 10),
+        "hall_code": "brand-zone",
+        "hall_name": "Бренд-зона",
+        "title": "Финтех-гуру",
+        "section_title": "Секция 1",
+        "start_time": time(14, 0),
+        "end_time": time(16, 0),
+        "sort_order": 20,
+    },
+
+    # 10 апреля — Бренд-зона, Секция 2
+    {
+        "session_date": date(2026, 4, 10),
+        "hall_code": "brand-zone",
+        "hall_name": "Бренд-зона",
+        "title": "Мир идей",
+        "section_title": "Секция 2",
+        "start_time": time(11, 0),
+        "end_time": time(13, 0),
+        "sort_order": 30,
+    },
+    {
+        "session_date": date(2026, 4, 10),
+        "hall_code": "brand-zone",
+        "hall_name": "Бренд-зона",
+        "title": "Мир идей",
+        "section_title": "Секция 2",
+        "start_time": time(14, 0),
+        "end_time": time(16, 0),
+        "sort_order": 40,
+    },
+
+    # 10 апреля — Бренд-зона, Секция 3
+    {
+        "session_date": date(2026, 4, 10),
+        "hall_code": "brand-zone",
+        "hall_name": "Бренд-зона",
+        "title": "Прожарка резюме",
+        "section_title": "Секция 3",
+        "start_time": time(11, 15),
+        "end_time": time(12, 15),
+        "sort_order": 50,
+    },
+
+    # 10 апреля — Бренд-зона, Секция 4
+    {
+        "session_date": date(2026, 4, 10),
+        "hall_code": "brand-zone",
+        "hall_name": "Бренд-зона",
+        "title": "Карьерные консультации",
+        "section_title": "Секция 4",
+        "start_time": time(11, 0),
+        "end_time": time(13, 0),
+        "sort_order": 60,
+    },
 
     # 10 апреля — Зал конструктора транзакций
     {

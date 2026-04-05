@@ -1,6 +1,5 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
 from app.models.user_activity import UserActivity
 
 
@@ -48,3 +47,10 @@ class UserActivityRepository:
             UserActivity.user_id == user_id,
         )
         return set(self.db.scalars(stmt).all())
+
+    def get_awards_for_user_activity(self, *, user_id: int, activity_id: int):
+        stmt = select(UserActivity).where(
+            UserActivity.user_id == user_id,
+            UserActivity.activity_id == activity_id,
+        )
+        return list(self.db.scalars(stmt).all())

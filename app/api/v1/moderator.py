@@ -9,7 +9,7 @@ from app.repositories.moderator_activity_repository import ModeratorActivityRepo
 from app.repositories.user_repository import UserRepository
 from app.services.moderator_activity_rules import get_award_options
 from app.services.moderator_award_service import ModeratorAwardError, ModeratorAwardService
-
+from app.core.security import require_auth
 router = APIRouter(tags=["moderator"])
 
 templates = Jinja2Templates(directory="app/templates")
@@ -34,12 +34,12 @@ def moderator_page(
     db: Session = Depends(get_db),
     activity_id: int | None = Query(default=None),
 ):
-    current_user = _get_current_user(request, db)
-    if current_user is None:
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    current_user = require_auth(request, db)
+    if isinstance(current_user, RedirectResponse):
+        return current_user
 
     if current_user.role not in {UserRole.MODERATOR.value, UserRole.ADMIN.value}:
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+        return RedirectResponse(url="/auth/login", status_code=status.HTTP_303_SEE_OTHER)
 
     moderator_activity_repo = ModeratorActivityRepository(db)
     available_activities = moderator_activity_repo.get_activities_for_moderator(

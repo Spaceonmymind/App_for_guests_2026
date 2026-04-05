@@ -10,6 +10,7 @@ from app.models.vote import Vote
 from app.models.voting_project import VotingProject
 from app.models.master_poll_response import MasterPollResponse
 from app.models.moderator_activity import ModeratorActivity
+from app.models.fin_game_vote import FinGameVote
 
 __all__ = [
     "Base",
@@ -24,4 +25,5 @@ __all__ = [
     "Vote",
     "MasterPollResponse",
     "ModeratorActivity",
+    "FinGameVote",
 ]

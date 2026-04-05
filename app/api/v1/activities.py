@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db
 from app.repositories.user_repository import UserRepository
 from app.services.activities_catalog_service import ActivitiesCatalogService
+from app.core.security import require_auth
 
 router = APIRouter(tags=["activities"])
 
@@ -27,9 +28,9 @@ def _get_current_user(request: Request, db: Session):
 
 @router.get("/activities", response_class=HTMLResponse)
 def activities_page(request: Request, db: Session = Depends(get_db)):
-    current_user = _get_current_user(request, db)
-    if current_user is None:
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    current_user = require_auth(request, db)
+    if isinstance(current_user, RedirectResponse):
+        return current_user
 
     categories = ActivitiesCatalogService(db).get_categories(current_user.id)
     master_poll_error = request.session.pop("master_poll_error", None)

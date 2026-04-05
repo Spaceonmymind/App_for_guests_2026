@@ -38,6 +38,8 @@
                     <a href="/master-poll" class="activities-category-card activities-category-card--poll">
                 {% elif item.slug == "best-project-vote" %}
                     <a href="/voting" class="activities-category-card activities-category-card--vote">
+                {% elif item.slug == "best-fin-game-vote" %}
+                    <a href="/fin-game-voting" class="activities-category-card activities-category-card--vote">
                 {% elif item.is_clickable %}
                     <a href="/activities/{{ item.slug }}" class="activities-category-card">
                 {% else %}
@@ -93,7 +95,7 @@
                             {% endif %}
                         </div>
 
-                {% if item.slug == "master-poll" or item.slug == "best-project-vote" or item.is_clickable %}
+                {% if item.slug == "master-poll" or item.slug == "best-project-vote"or item.slug == "best-fin-game-vote" or item.is_clickable%}
                     </a>
                 {% else %}
                     </div>

@@ -23,6 +23,7 @@ ACTIVITIES = [
 
     {"name": "Мастер-опрос", "points_participation": 10, "points_win": 10},
     {"name": "Голосование за лучший проект", "points_participation": 10, "points_win": 10},
+    {"name": "Голосование за лучшую фин-игру", "points_participation": 10, "points_win": 10},
 ]
 
 

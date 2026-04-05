@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
 from app.repositories.user_repository import UserRepository
-
+from app.core.security import require_auth
 router = APIRouter(tags=["map"])
 
 templates = Jinja2Templates(directory="app/templates")
@@ -104,14 +104,9 @@ ZONE_DATA = {
 
 @router.get("/map", response_class=HTMLResponse)
 def map_page(request: Request, db: Session = Depends(get_db)):
-    user_id = request.session.get("user_id")
-    if not user_id:
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
-
-    current_user = UserRepository(db).get_by_id(user_id)
-    if current_user is None:
-        request.session.clear()
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    current_user = require_auth(request, db)
+    if isinstance(current_user, RedirectResponse):
+        return current_user
 
     return templates.TemplateResponse(
         request=request,

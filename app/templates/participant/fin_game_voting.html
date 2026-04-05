@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="voting-screen">
+    <img src="/static/img/decor-top-left.png" alt="" class="voting-screen__decor voting-screen__decor--top-left" aria-hidden="true" />
+    <img src="/static/img/decor-top-right.png" alt="" class="voting-screen__decor voting-screen__decor--top-right" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-left.png" alt="" class="voting-screen__decor voting-screen__decor--bottom-left" aria-hidden="true" />
+    <img src="/static/img/decor-bottom-right.png" alt="" class="voting-screen__decor voting-screen__decor--bottom-right" aria-hidden="true" />
+
+    <div class="voting-screen__content">
+        <header class="screen-header">
+            <h1 class="screen-title">Лучшая фин-игра</h1>
+        </header>
+
+        <form method="post" action="/fin-game-voting" class="voting-form">
+            <section class="voting-list" aria-label="Фин-игры для голосования">
+                {% for item in games %}
+                    <article class="voting-item {% if not item.is_available %}voting-item--disabled{% endif %}">
+                        <label class="voting-item__select-area">
+                            <span class="voting-item__radio-wrap">
+                                <input
+                                    type="radio"
+                                    name="activity_id"
+                                    value="{{ item.id }}"
+                                    class="voting-item__radio"
+                                    {% if existing_vote or not item.is_available %}disabled{% endif %}
+                                />
+                                <span class="voting-item__radio-ui"></span>
+                            </span>
+
+                            <div class="voting-item__main">
+                                <div class="voting-item__name">{{ item.name }}</div>
+
+                                {% if item.is_available %}
+                                    <div class="voting-item__project">Вы участвовали в этой игре</div>
+                                {% else %}
+                                    <div class="voting-item__project">Сначала поиграйте в неё</div>
+                                {% endif %}
+                            </div>
+                        </label>
+                    </article>
+                {% endfor %}
+            </section>
+
+            <div class="voting-form__actions">
+                <button
+                    type="submit"
+                    class="voting-submit {% if existing_vote %}voting-submit--done{% endif %}"
+                    {% if existing_vote %}disabled{% endif %}
+                >
+                    {% if existing_vote %}
+                        Ваш голос учтен
+                    {% else %}
+                        отправить голос
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {% include "includes/bottom_nav.html" %}
+</section>
+{% endblock %}

@@ -7,6 +7,7 @@ from app.models.master_poll_response import MasterPollResponse
 from app.models.vote import Vote
 from app.repositories.activity_repository import ActivityRepository
 from app.repositories.user_activity_repository import UserActivityRepository
+from app.models.fin_game_vote import FinGameVote
 
 
 @dataclass
@@ -48,6 +49,11 @@ class ActivitiesCatalogService:
             select(Vote).where(Vote.user_id == user_id)
         ) is not None
 
+    def _is_best_fin_game_vote_completed(self, user_id: int) -> bool:
+        return self.db.scalar(
+            select(FinGameVote).where(FinGameVote.user_id == user_id)
+        ) is not None
+
     def _build_catalog(self, user_id: int) -> list[ActivityCategoryView]:
         activities = self.activity_repo.get_all()
         joined_ids = self.user_activity_repo.get_awarded_activity_ids_for_user(user_id=user_id)
@@ -82,6 +88,16 @@ class ActivitiesCatalogService:
                 tasks=[],
                 is_clickable=True,
                 badge_mode="standard",
+            ),
+            "best-fin-game-vote": ActivityCategoryView(
+                slug="best-fin-game-vote",
+                title="Голосование за\nлучшую фин-игру",
+                subtitle="Зал финансовых игр",
+                tasks_count=0,
+                completed_count=0,
+                tasks=[],
+                is_clickable=True,
+                badge_mode="vote",
             ),
             "transaction-constructor": ActivityCategoryView(
                 slug="transaction-constructor",
@@ -137,6 +153,7 @@ class ActivitiesCatalogService:
 
         grouped["master-poll"].is_completed = self._is_master_poll_completed(user_id)
         grouped["best-project-vote"].is_completed = self._is_best_project_vote_completed(user_id)
+        grouped["best-fin-game-vote"].is_completed = self._is_best_fin_game_vote_completed(user_id)
 
         financial_map = {
             "Юный инвестор": "Игра «Юный инвестор»",

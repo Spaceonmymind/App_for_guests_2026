@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db
 from app.repositories.program_repository import ProgramRepository
 from app.repositories.user_repository import UserRepository
-
+from app.core.security import require_auth
 router = APIRouter(tags=["program"])
 
 templates = Jinja2Templates(directory="app/templates")
@@ -40,9 +40,9 @@ def program_page(
     selected_date: str | None = Query(default=None, alias="date"),
     hall: str | None = Query(default=None),
 ):
-    user_id = request.session.get("user_id")
-    if not user_id:
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    current_user = require_auth(request, db)
+    if isinstance(current_user, RedirectResponse):
+        return current_user
 
     current_user = UserRepository(db).get_by_id(user_id)
     if current_user is None:

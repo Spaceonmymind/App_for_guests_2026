@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db
 from app.repositories.user_repository import UserRepository
 from app.services.master_poll_service import MasterPollError, MasterPollService
-
+from app.core.security import require_auth
 router = APIRouter(tags=["master_poll"])
 
 templates = Jinja2Templates(directory="app/templates")
@@ -71,9 +71,9 @@ def _get_current_user(request: Request, db: Session):
 
 @router.get("/master-poll", response_class=HTMLResponse)
 def master_poll_start(request: Request, db: Session = Depends(get_db)):
-    current_user = _get_current_user(request, db)
-    if current_user is None:
-        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    current_user = require_auth(request, db)
+    if isinstance(current_user, RedirectResponse):
+        return current_user
 
     service = MasterPollService(db)
     if service.is_completed(user_id=current_user.id):

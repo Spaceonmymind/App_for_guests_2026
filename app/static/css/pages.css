@@ -3383,3 +3383,12 @@
     line-height: 1.3;
     color: #23235A;
 }
+
+.voting-item--disabled {
+    opacity: 0.6;
+}
+
+.voting-item--disabled .voting-item__name,
+.voting-item--disabled .voting-item__project {
+    color: rgba(255, 255, 255, 0.7);
+}

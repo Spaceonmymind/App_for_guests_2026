@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-screen">
+    <div class="admin-screen__content">
+        <header class="admin-screen__header">
+            <h1 class="admin-screen__title">Результаты голосования за лучшую фин-игру</h1>
+        </header>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Место</th>
+                        <th>Игра</th>
+                        <th>Голосов</th>
+                        <th>Процент</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in results %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.votes_count }}</td>
+                            <td>{{ item.percent }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-back">
+            <a href="/admin" class="admin-back__link">← Назад в админку</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

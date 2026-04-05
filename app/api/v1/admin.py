@@ -18,6 +18,8 @@ from app.repositories.rating_repository import RatingRepository
 from app.services.rating_finalize_service import RatingFinalizeError, RatingFinalizeService
 from app.repositories.moderator_activity_repository import ModeratorActivityRepository
 from app.services.admin_score_code_service import AdminScoreCodeError, AdminScoreCodeService
+from app.repositories.fin_game_vote_repository import FinGameVoteRepository
+
 router = APIRouter(tags=["admin"])
 
 templates = Jinja2Templates(directory="app/templates")
@@ -401,3 +403,20 @@ def admin_regenerate_score_code(
         request.session["admin_error_message"] = str(exc)
 
     return RedirectResponse(url="/admin/users", status_code=status.HTTP_303_SEE_OTHER)
+
+@router.get("/admin/fin-game-voting-results", response_class=HTMLResponse)
+def admin_fin_game_voting_results(request: Request, db: Session = Depends(get_db)):
+    current_user = _require_admin(request, db)
+    if current_user is None:
+        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+    results = FinGameVoteRepository(db).get_results()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin/fin_game_voting_results.html",
+        context={
+            "title": "Результаты голосования за лучшую фин-игру",
+            "results": results,
+        },
+    )

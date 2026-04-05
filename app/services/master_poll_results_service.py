@@ -45,6 +45,9 @@ class MasterPollResultsService:
     def __init__(self, response_repo: MasterPollResponseRepository) -> None:
         self.response_repo = response_repo
 
+    def _normalize(self, text: str) -> str:
+        return " ".join(text.strip().lower().split())
+
     def build_results(self) -> list[dict]:
         distribution = self.response_repo.get_answer_distribution()
         all_responses = self.response_repo.get_all()
@@ -53,12 +56,21 @@ class MasterPollResultsService:
         result = []
 
         for step in POLL_STEPS:
-            counter = distribution[step["index"]]
-            total_answers = sum(counter.values())
+            counter = distribution.get(step["index"], {})
+
+            # нормализуем ключи из БД
+            normalized_counter = {
+                self._normalize(k): v for k, v in counter.items()
+            }
+
+            total_answers = sum(normalized_counter.values())
 
             chart_items = []
             for answer in step["answers"]:
-                count = counter.get(answer, 0)
+                normalized_answer = self._normalize(answer)
+
+                count = normalized_counter.get(normalized_answer, 0)
+
                 percent = round((count / total_answers) * 100) if total_answers > 0 else 0
 
                 if answer.startswith("А)"):
@@ -76,9 +88,10 @@ class MasterPollResultsService:
                         "percent": percent,
                     }
                 )
+
+            # строим круговую диаграмму
             segments = []
             current_percent = 0
-
             segment_colors = ["#C22FDE", "#7C4DFF", "#4FC3F7"]
 
             for index, item in enumerate(chart_items):
@@ -93,10 +106,12 @@ class MasterPollResultsService:
 
                 current_percent = end
 
-            if not segments:
-                chart_gradient = "rgba(255,255,255,0.12) 0% 100%"
-            else:
-                chart_gradient = ", ".join(segments)
+            chart_gradient = (
+                "rgba(255,255,255,0.12) 0% 100%"
+                if not segments
+                else ", ".join(segments)
+            )
+
             result.append(
                 {
                     "title": step["title"],

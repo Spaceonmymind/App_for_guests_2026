@@ -10,7 +10,7 @@ TEST_CODES = [
     "PLM8K23",
     "RT56YU9",
 ]
-
+375
 
 def seed_users() -> None:
     with SessionLocal() as db:

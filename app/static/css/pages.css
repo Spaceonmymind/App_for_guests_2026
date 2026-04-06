@@ -842,11 +842,16 @@
 }
 
 .bottom-nav__icon-image {
-    width: 100%;
-    height: 100%;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
-    display: block;
-    opacity: 0.96;
+
+    filter: brightness(0) invert(1); /* ← делает иконки белыми */
+    transition: all 0.2s ease;
+}
+
+.bottom-nav__item--active .bottom-nav__icon-image {
+    filter: brightness(0) saturate(100%) invert(32%) sepia(94%) saturate(2273%) hue-rotate(260deg) brightness(95%) contrast(101%);
 }
 
 .bottom-nav__item--active .bottom-nav__icon {

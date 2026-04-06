@@ -91,7 +91,7 @@ class ActivitiesCatalogService:
             ),
             "best-fin-game-vote": ActivityCategoryView(
                 slug="best-fin-game-vote",
-                title="Голосование за\nлучшую фин-игру",
+                title="Голосование за\nлучшую игру",
                 subtitle="Зал финансовых игр",
                 tasks_count=0,
                 completed_count=0,

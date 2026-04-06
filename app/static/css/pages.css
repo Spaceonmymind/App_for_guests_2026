@@ -801,18 +801,14 @@
     bottom: 0;
     z-index: 40;
 
+    height: 50px;
+
     display: grid;
+    grid-template-columns: repeat(6, 1fr);
     align-items: center;
-    justify-content: space-around;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    align-items: end;
 
-    padding:
-        10px
-        12px
-        calc(env(safe-area-inset-bottom, 0px) + 10px);
-
-    background: rgba(21, 21, 65, 0.92);
+    padding: 0 6px env(safe-area-inset-bottom, 0px);
+    background: rgba(21, 21, 65, 0.95);
     backdrop-filter: blur(14px);
 }
 
@@ -945,16 +941,11 @@
     padding:
         calc(env(safe-area-inset-top, 0px) + 6px)
         16px
-        calc(env(safe-area-inset-bottom, 0px) + 88px)
+        8px
         16px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-}
-
-.activities-screen__header {
-    flex: 0 0 auto;
-    padding-bottom: 26px;
+    min-height: 0;
 }
 
 .activities-screen__title {
@@ -1021,10 +1012,14 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
+
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
+
     padding-right: 4px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 72px);
+
     align-content: start;
 }
 
@@ -1311,13 +1306,17 @@
     height: 100vh;
     height: 100dvh;
     padding:
-        calc(env(safe-area-inset-top, 0px) + 12px)
+        calc(env(safe-area-inset-top, 0px) + 10px)
         16px
-        calc(env(safe-area-inset-bottom, 0px) + 88px)
+        8px
         16px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    min-height: 0;
+}
+
+.program-screen__content > * {
+    min-height: 0;
 }
 
 .program-screen__header {
@@ -1418,6 +1417,7 @@
     overflow-y: auto;
     padding-top: 2px;
     padding-right: 2px;
+    padding-bottom: 24px;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
 }

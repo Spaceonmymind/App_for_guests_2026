@@ -97,7 +97,7 @@ SESSIONS = [
         "hall_code": "main",
         "hall_name": "Главный зал форума",
         "title": "Подведение итогов, награждение победителей Творческого трека и трека «Финансовые игры»",
-        "start_time": time(14, 25),
+        "start_time": time(14, 30),
         "end_time": time(15, 0),
         "sort_order": 50,
     },

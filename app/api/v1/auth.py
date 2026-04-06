@@ -138,11 +138,26 @@ def activate_user(
     code: str = Form(default=""),
     first_name: str = Form(default=""),
     last_name: str = Form(default=""),
+    agree_pd: str | None = Form(default=None),
     db: Session = Depends(get_db),
 ):
     normalized_code = code.strip().upper()
     normalized_first_name = first_name.strip()
     normalized_last_name = last_name.strip()
+    if agree_pd != "true":
+        return templates.TemplateResponse(
+            request=request,
+            name="auth/activate.html",
+            context={
+                "title": "Активация профиля",
+                "code": normalized_code,
+                "error": "Для активации профиля необходимо подтвердить согласие.",
+                "first_name": normalized_first_name,
+                "last_name": normalized_last_name,
+                "agree_pd": False,
+            },
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
 
     user_repo = UserRepository(db)
     user = user_repo.get_by_code(normalized_code)
@@ -160,6 +175,7 @@ def activate_user(
                 "error": "Заполните имя и фамилию.",
                 "first_name": normalized_first_name,
                 "last_name": normalized_last_name,
+                "agree_pd": agree_pd == "true",
             },
             status_code=status.HTTP_400_BAD_REQUEST,
         )

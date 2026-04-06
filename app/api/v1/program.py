@@ -100,7 +100,10 @@ def program_page(
 
     session_groups = [
         {"title": title, "items": items}
-        for title, items in grouped_sections.items()
+        for title, items in sorted(
+            grouped_sections.items(),
+            key=lambda pair: int(pair[0].replace("Секция ", ""))
+        )
     ]
 
     return templates.TemplateResponse(

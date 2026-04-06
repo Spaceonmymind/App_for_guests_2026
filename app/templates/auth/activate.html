@@ -76,6 +76,25 @@
                     <p class="auth-form-new__error">{{ error }}</p>
                 {% endif %}
 
+                <label class="auth-form-new__consent">
+                    <input
+                        type="checkbox"
+                        name="agree_pd"
+                        value="true"
+                        {% if agree_pd %}checked{% endif %}
+                    />
+                    <span>
+                        Я ознакомлен и принимаю
+                        <a href="https://juniorpaytech.ru/program-rules.pdf" target="_blank" rel="noopener noreferrer">
+                            Положение о проведении Молодежного форума платежных технологий (Junior PayTech Forum)
+                        </a>,
+                        ознакомлен с
+                        <a href="https://juniorpaytech.ru/processing-of-personal-data.pdf" target="_blank" rel="noopener noreferrer">
+                            Политикой обработки и защиты персональных данных в АО «НСПК»
+                        </a>
+                    </span>
+                </label>
+
                 <button type="submit" class="auth-form-new__button">
                     Активировать профиль
                 </button>

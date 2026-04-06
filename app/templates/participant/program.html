@@ -13,7 +13,7 @@
         </header>
 
         <section class="program-filters">
-            <div class="program-filters__row">
+            <div class="program-filters__row program-filters__row--dates">
                 {% for tab in date_tabs %}
                     <a
                         href="/program?date={{ tab.value }}&hall={{ current_hall }}"

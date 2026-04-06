@@ -1369,13 +1369,29 @@
     width: 100%;
 }
 
+.program-filters__row--dates {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.program-filters__row--dates .program-pill {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    min-height: 35px;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
 .program-pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: 36px;
     padding: 0 18px;
-    box-sizing: border-box;
     border-radius: 999px;
     text-decoration: none;
     font-size: 15px;
@@ -1383,6 +1399,7 @@
     color: rgba(255, 255, 255, 0.92);
     background: rgba(70, 70, 122, 0.75);
     transition: 0.2s ease;
+    box-sizing: border-box;
 }
 
 

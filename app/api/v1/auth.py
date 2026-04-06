@@ -29,9 +29,21 @@ def auth_page(request: Request):
 @router.post("/auth/login", response_class=HTMLResponse)
 def login_by_code(
     request: Request,
-    code: str = Form(...),
+    code: str = Form(default=""),
     db: Session = Depends(get_db),
 ):
+    if not code or not code.strip():
+        return templates.TemplateResponse(
+            request=request,
+            name="auth/login.html",
+            context={
+                "title": "Вход",
+                "error": "Введите код участника.",
+                "entered_code": "",
+            },
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
     normalized_code = code.strip().upper()
 
     if not (6 <= len(normalized_code) <= 9):
@@ -123,9 +135,9 @@ def activate_page(
 @router.post("/auth/activate", response_class=HTMLResponse)
 def activate_user(
     request: Request,
-    code: str = Form(...),
-    first_name: str = Form(...),
-    last_name: str = Form(...),
+    code: str = Form(default=""),
+    first_name: str = Form(default=""),
+    last_name: str = Form(default=""),
     db: Session = Depends(get_db),
 ):
     normalized_code = code.strip().upper()

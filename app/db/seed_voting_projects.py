@@ -105,14 +105,14 @@ PROJECTS = [
     {
         "participant_name": "Макеева Анна",
         "project_name": "Моя МедКарта",
-        "description": "Электронная карта пациента на Verifiable Credentials",
+        "description": "электронная карта пациента с применением технологии Verifiable Credentials, позволяющей пациентам контролировать доступ к своим медицинским данным",
         "photo_url": "/static/img/authors/moya-medkarta.png",
         "sort_order": 150,
     },
     {
         "participant_name": "Атарщикова Валерия",
         "project_name": "Ложка",
-        "description": "Мобильный помощник по организации питания",
+        "description": "мобильный помощник по организации индивидуального правильного домашнего питания",
         "photo_url": "/static/img/authors/lozhka.png",
         "sort_order": 160,
     },
@@ -126,7 +126,7 @@ PROJECTS = [
     {
         "participant_name": "Соловцова Алина",
         "project_name": "Кап-Кап ремонт",
-        "description": "B2C-маркетплейс заявок на ремонт",
+        "description": "B2C-маркетплейс заявок на ремонт инфраструктуры в зоне ответственности управляющих компаний",
         "photo_url": "/static/img/authors/kap-kap-remont.png",
         "sort_order": 180,
     },

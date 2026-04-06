@@ -3438,3 +3438,40 @@
 .voting-item--disabled .voting-item__project {
     color: rgba(255, 255, 255, 0.7);
 }
+
+
+
+.auth-form-new__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.auth-form-new__consent input {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    accent-color: #C22FDE; /* фиолетовая галочка */
+}
+
+.auth-form-new__consent a {
+    color: #C22FDE;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+/* hover (на десктопе будет приятно) */
+.auth-form-new__consent a:hover {
+    color: #E066FF;
+    text-decoration: underline;
+}
+
+/* активное состояние */
+.auth-form-new__consent a:active {
+    opacity: 0.7;
+}

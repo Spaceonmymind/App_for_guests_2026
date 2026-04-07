@@ -23,6 +23,7 @@ MODERATORS = [
     {"code": "MOD911", "first_name": "Модератор", "last_name": "Прожарка"},
 ]
 
+529
 
 def seed() -> None:
     with SessionLocal() as db:

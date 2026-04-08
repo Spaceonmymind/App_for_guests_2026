@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Form, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-
+from app.repositories.feature_flags_repository import FeatureFlagsRepository
 from app.api.deps import get_db
 from app.repositories.user_repository import UserRepository
 from app.services.master_poll_service import MasterPollError, MasterPollService
@@ -74,6 +74,11 @@ def master_poll_start(request: Request, db: Session = Depends(get_db)):
     current_user = require_auth(request, db)
     if isinstance(current_user, RedirectResponse):
         return current_user
+
+    flags = FeatureFlagsRepository(db).get_or_create()
+    if not flags.is_master_poll_open:
+        request.session["master_poll_error"] = "Мастер-опрос пока закрыт."
+        return RedirectResponse(url="/activities", status_code=status.HTTP_303_SEE_OTHER)
 
     service = MasterPollService(db)
     if service.is_completed(user_id=current_user.id):

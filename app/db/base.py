@@ -11,7 +11,7 @@ from app.models.voting_project import VotingProject
 from app.models.master_poll_response import MasterPollResponse
 from app.models.moderator_activity import ModeratorActivity
 from app.models.fin_game_vote import FinGameVote
-
+from app.models.feature_flags import FeatureFlags
 __all__ = [
     "Base",
     "User",
@@ -26,4 +26,5 @@ __all__ = [
     "MasterPollResponse",
     "ModeratorActivity",
     "FinGameVote",
+    "FeatureFlags",
 ]

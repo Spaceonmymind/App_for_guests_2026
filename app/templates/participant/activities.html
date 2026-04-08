@@ -35,9 +35,17 @@
         <section class="activities-categories" aria-label="Категории интерактивов">
             {% for item in categories %}
                 {% if item.slug == "master-poll" %}
-                    <a href="/master-poll" class="activities-category-card activities-category-card--poll">
+                    {% if item.is_open %}
+                        <a href="/master-poll" class="activities-category-card activities-category-card--poll">
+                    {% else %}
+                        <div class="activities-category-card activities-category-card--poll activities-category-card--static">
+                    {% endif %}
                 {% elif item.slug == "best-project-vote" %}
-                    <a href="/voting" class="activities-category-card activities-category-card--vote">
+                    {% if item.is_open %}
+                        <a href="/voting" class="activities-category-card activities-category-card--vote">
+                    {% else %}
+                        <div class="activities-category-card activities-category-card--vote activities-category-card--static">
+                    {% endif %}
                 {% elif item.slug == "best-fin-game-vote" %}
                     <a href="/fin-game-voting" class="activities-category-card activities-category-card--vote">
                 {% elif item.is_clickable %}
@@ -81,7 +89,11 @@
                                 {{ item.subtitle | replace('\n', '<br>') | safe }}
                             </div>
                         {% endif %}
-
+                        {% if not item.is_open and item.closed_text %}
+                            <div class="activities-category-card__closed">
+                                {{ item.closed_text }}
+                            </div>
+                        {% endif %}
                         <div class="activities-category-card__meta">
                             {% if item.badge_mode == "constructor" %}
                                 <span class="activities-chip">сбор: 5 баллов</span>
@@ -94,8 +106,13 @@
                                 <span class="activities-chip">участие: 2 балла</span>
                             {% endif %}
                         </div>
-
-                {% if item.slug == "master-poll" or item.slug == "best-project-vote"or item.slug == "best-fin-game-vote" or item.is_clickable%}
+                {% if item.slug == "master-poll" or item.slug == "best-project-vote" %}
+                    {% if item.is_open %}
+                        </a>
+                    {% else %}
+                        </div>
+                    {% endif %}
+                {% elif item.slug == "best-fin-game-vote" or item.is_clickable %}
                     </a>
                 {% else %}
                     </div>

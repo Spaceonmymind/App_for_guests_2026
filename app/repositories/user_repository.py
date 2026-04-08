@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
+from sqlalchemy import func
 from app.models.user import User
 
 
@@ -14,7 +14,7 @@ class UserRepository:
         return self.db.get(User, user_id)
 
     def get_by_code(self, code: str) -> User | None:
-        stmt = select(User).where(User.code == code)
+        stmt = select(User).where(func.upper(User.code) == code.upper())
         return self.db.scalar(stmt)
 
     def get_by_score_code(self, score_code: str):

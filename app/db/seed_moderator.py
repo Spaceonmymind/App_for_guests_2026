@@ -18,12 +18,13 @@ MODERATORS = [
     {"code": "MOD431", "first_name": "Арина", "last_name": "Непомнящая"},
     {"code": "MOD513", "first_name": "Зоя", "last_name": "Комарова"},
     {"code": "MOD154", "first_name": "Арина", "last_name": "Полонец"},
+    {"code": "MOD134", "first_name": "Анна", "last_name": "Головань"},
     {"code": "MOD579", "first_name": "Соня-Милана", "last_name": "Заева"},
     {"code": "MOD216", "first_name": "Модератор", "last_name": "Квиз"},
     {"code": "MOD911", "first_name": "Модератор", "last_name": "Прожарка"},
 ]
 
-529
+
 
 def seed() -> None:
     with SessionLocal() as db:

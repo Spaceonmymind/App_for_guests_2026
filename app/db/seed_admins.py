@@ -4,7 +4,8 @@ from app.db.session import SessionLocal
 from app.models.user import User, UserActivationStatus, UserRole
 
 ADMINS = [
-    {"code": "900001", "first_name": "Админ", "last_name": "Основной"},
+    {"code": "900001", "first_name": "Юлия", "last_name": "Дюкина"},
+    {"code": "020103", "first_name": "Егор", "last_name": "Гладких"},
 ]
 
 

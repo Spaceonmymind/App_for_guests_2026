@@ -8,6 +8,7 @@ from app.models.vote import Vote
 from app.repositories.activity_repository import ActivityRepository
 from app.repositories.user_activity_repository import UserActivityRepository
 from app.models.fin_game_vote import FinGameVote
+from app.repositories.feature_flags_repository import FeatureFlagsRepository
 
 
 @dataclass

@@ -38,15 +38,22 @@
                     {% if item.is_open %}
                         <a href="/master-poll" class="activities-category-card activities-category-card--poll">
                     {% else %}
-                        <div class="activities-category-card activities-category-card--poll activities-category-card--static">
+                        <button
+                            type="button"
+                            class="activities-category-card activities-category-card--poll activities-category-card--static"
+                            onclick="openActivityClosedModal('{{ item.closed_text }}')"
+                        >
                     {% endif %}
                 {% elif item.slug == "best-project-vote" %}
                     {% if item.is_open %}
                         <a href="/voting" class="activities-category-card activities-category-card--vote">
                     {% else %}
-                        <div class="activities-category-card activities-category-card--vote activities-category-card--static">
+                        <button
+                            type="button"
+                            class="activities-category-card activities-category-card--vote activities-category-card--static"
+                            onclick="openActivityClosedModal('{{ item.closed_text }}')"
+                        >
                     {% endif %}
-                {% elif item.slug == "best-fin-game-vote" %}
                     <a href="/fin-game-voting" class="activities-category-card activities-category-card--vote">
                 {% elif item.is_clickable %}
                     <a href="/activities/{{ item.slug }}" class="activities-category-card">
@@ -89,11 +96,7 @@
                                 {{ item.subtitle | replace('\n', '<br>') | safe }}
                             </div>
                         {% endif %}
-                        {% if not item.is_open and item.closed_text %}
-                            <div class="activities-category-card__closed">
-                                {{ item.closed_text | replace('\n', '<br>') | safe }}
-                            </div>
-                        {% endif %}
+
                         <div class="activities-category-card__meta">
                             {% if item.badge_mode == "constructor" %}
                                 <span class="activities-chip">сбор: 5 баллов</span>
@@ -110,7 +113,7 @@
                     {% if item.is_open %}
                         </a>
                     {% else %}
-                        </div>
+                        </button>
                     {% endif %}
                 {% elif item.slug == "best-fin-game-vote" or item.is_clickable %}
                     </a>
@@ -155,4 +158,44 @@
         </script>
     {% endif %}
 </section>
+
+<div class="map-modal" id="activity-closed-modal">
+    <div class="map-modal__backdrop" onclick="closeActivityClosedModal()"></div>
+
+    <div class="map-modal__dialog">
+        <button
+            type="button"
+            class="map-modal__close"
+            onclick="closeActivityClosedModal()"
+            aria-label="Закрыть"
+        >
+            ×
+        </button>
+
+        <h3 class="map-modal__title">Внимание</h3>
+
+        <div class="map-modal__body">
+            <p id="activity-closed-modal-text"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openActivityClosedModal(text) {
+        const modal = document.getElementById("activity-closed-modal");
+        const modalText = document.getElementById("activity-closed-modal-text");
+
+        if (modal && modalText) {
+            modalText.textContent = text;
+            modal.classList.add("map-modal--open");
+        }
+    }
+
+    function closeActivityClosedModal() {
+        const modal = document.getElementById("activity-closed-modal");
+        if (modal) {
+            modal.classList.remove("map-modal--open");
+        }
+    }
+</script>
 {% endblock %}

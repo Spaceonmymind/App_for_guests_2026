@@ -1118,7 +1118,6 @@
 }
 
 .activities-category-card__subtitle {
-    display: block;
     font-size: 16px;
     line-height: 1.02;
     color: rgba(255, 255, 255, 0.88);
@@ -3446,27 +3445,13 @@
     text-decoration: underline;
 }
 
-
-.activities-category-card--static {
-    border: none;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    background-clip: padding-box;
-    font: inherit;
-    text-align: left;
-    padding: 0;
-    margin: 0;
-}
-
 button.activities-category-card {
-    border: none;
-    outline: none;
     appearance: none;
     -webkit-appearance: none;
+    border: none;
+    outline: none;
     font: inherit;
     text-align: left;
-    padding: 0;
-    margin: 0;
-    background-color: transparent;
+    width: 100%;
+    cursor: pointer;
 }

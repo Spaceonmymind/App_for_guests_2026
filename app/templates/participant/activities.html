@@ -80,15 +80,17 @@
                             {% endif %}
                         </div>
 
-                        <div class="activities-category-card__title">
-                            {{ item.title | replace('\n', '<br>') | safe }}
-                        </div>
-
-                        {% if item.subtitle %}
-                            <div class="activities-category-card__subtitle">
-                                {{ item.subtitle | replace('\n', '<br>') | safe }}
+                        <div class="activities-category-card__body">
+                            <div class="activities-category-card__title">
+                                {{ item.title | replace('\n', '<br>') | safe }}
                             </div>
-                        {% endif %}
+
+                            {% if item.subtitle %}
+                                <div class="activities-category-card__subtitle">
+                                    {{ item.subtitle | replace('\n', '<br>') | safe }}
+                                </div>
+                            {% endif %}
+                        </div>
                         {% if not item.is_open and item.closed_text %}
                             <div class="activities-category-card__closed">
                                 {{ item.closed_text | replace('\n', '<br>') | safe }}

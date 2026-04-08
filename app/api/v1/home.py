@@ -48,5 +48,7 @@ def home_page(request: Request, db: Session = Depends(get_db)):
                 {"title": "Рейтинг", "icon": "/static/img/icon-rating.png", "href": "/rating"},
                 {"title": "Голосование", "icon": "/static/img/icon-voting.png", "href": "/voting"},
             ],
+            "voting_closed": request.query_params.get("voting_closed") == "1",
+            "master_poll_closed": request.query_params.get("master_poll_closed") == "1",
         },
     )

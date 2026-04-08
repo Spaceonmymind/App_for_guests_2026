@@ -35,8 +35,7 @@ def voting_page(request: Request, db: Session = Depends(get_db)):
 
     flags = FeatureFlagsRepository(db).get_or_create()
     if not flags.is_project_voting_open:
-        request.session["vote_error"] = "Голосование пока закрыто."
-        return RedirectResponse(url="/activities", status_code=status.HTTP_303_SEE_OTHER)
+        return RedirectResponse(url="/home?voting_closed=1", status_code=status.HTTP_303_SEE_OTHER)
 
     projects = VotingProjectRepository(db).get_active_projects()
     existing_vote = VoteRepository(db).get_user_vote(user_id=current_user.id)

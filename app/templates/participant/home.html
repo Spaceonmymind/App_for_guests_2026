@@ -132,5 +132,26 @@
             });
         })();
     </script>
+    {% if voting_closed %}
+    <div class="map-modal map-modal--open" id="voting-closed-modal">
+        <div class="map-modal__backdrop" onclick="closeVotingClosedModal()"></div>
+        <div class="map-modal__dialog">
+            <button type="button" class="map-modal__close" onclick="closeVotingClosedModal()" aria-label="Закрыть">×</button>
+            <h3 class="map-modal__title">Внимание</h3>
+            <div class="map-modal__body">
+                <p>Голосование откроется в 17:00.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeVotingClosedModal() {
+            const modal = document.getElementById("voting-closed-modal");
+            if (modal) {
+                modal.classList.remove("map-modal--open");
+            }
+        }
+    </script>
+{% endif %}
 </section>
 {% endblock %}

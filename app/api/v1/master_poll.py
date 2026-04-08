@@ -77,8 +77,7 @@ def master_poll_start(request: Request, db: Session = Depends(get_db)):
 
     flags = FeatureFlagsRepository(db).get_or_create()
     if not flags.is_master_poll_open:
-        request.session["master_poll_error"] = "Мастер-опрос пока закрыт."
-        return RedirectResponse(url="/activities", status_code=status.HTTP_303_SEE_OTHER)
+        return RedirectResponse(url="/home?master_poll_closed=1", status_code=status.HTTP_303_SEE_OTHER)
 
     service = MasterPollService(db)
     if service.is_completed(user_id=current_user.id):

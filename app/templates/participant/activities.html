@@ -54,13 +54,13 @@
                             onclick="openActivityClosedModal('{{ item.closed_text }}')"
                         >
                     {% endif %}
+                {% elif item.slug == "best-fin-game-vote" %}
                     <a href="/fin-game-voting" class="activities-category-card activities-category-card--vote">
                 {% elif item.is_clickable %}
                     <a href="/activities/{{ item.slug }}" class="activities-category-card">
                 {% else %}
                     <div class="activities-category-card activities-category-card--static">
                 {% endif %}
-
                         <div class="activities-category-card__top">
                             <div class="activities-category-card__number">
                                 {{ "%02d"|format(loop.index) }}

@@ -1098,7 +1098,8 @@
 
 .activities-category-card {
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
     flex-direction: column;
     justify-content: flex-start;
     gap: 8px;
@@ -1140,6 +1141,7 @@
     font-size: 22px;
     font-weight: 700;
     line-height: 1.02;
+    min-height: 2.2em;
     color: #fff;
     margin-top: 2px;
     text-align: left;
@@ -3476,13 +3478,18 @@
 .activities-category-card__closed {
     margin-top: 8px;
     padding: 4px 10px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     height: 28px;
+    max-width: max-content;
+
     border-radius: 999px;
     background: rgba(255, 77, 109, 0.12);
     border: 1px solid rgba(255, 77, 109, 0.4);
+
     color: #ff6b7d;
     font-size: 11px;
     font-weight: 700;
@@ -3496,6 +3503,3 @@
     margin-top: auto;
 }
 
-.activities-category-card__body {
-    min-height: 120px;
-}

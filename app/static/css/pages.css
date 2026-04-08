@@ -3480,24 +3480,29 @@
 
 
 .activities-category-card__closed {
-    margin-top: 8px;
-    padding: 6px 10px;
+    margin-top: 10px;
+    padding: 8px 10px;
 
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
 
-    min-height: 32px; /* ВАЖНО */
+    min-height: 52px;
+    width: 100%;
+    box-sizing: border-box;
 
-    background: rgba(255, 77, 109, 0.18);
-    border: 1px solid rgba(255, 77, 109, 0.5);
-    border-radius: 10px;
+    background: rgba(255, 77, 109, 0.16);
+    border: 1px solid rgba(255, 77, 109, 0.38);
+    border-radius: 12px;
 
-    color: #ff4d6d;
+    color: #ff6b7d;
     font-size: 13px;
     font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
 
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.4px;
 }
 
 .activities-category-card__meta {

@@ -3483,10 +3483,13 @@
     margin-top: 8px;
     padding: 6px 10px;
 
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 
-    background: rgba(255, 77, 109, 0.15);
-    border: 1px solid rgba(255, 77, 109, 0.4);
+    min-height: 32px; /* ВАЖНО */
+
+    background: rgba(255, 77, 109, 0.18);
+    border: 1px solid rgba(255, 77, 109, 0.5);
     border-radius: 10px;
 
     color: #ff4d6d;
@@ -3495,4 +3498,8 @@
 
     text-transform: uppercase;
     letter-spacing: 0.6px;
+}
+
+.activities-category-card__meta {
+    margin-top: auto;
 }

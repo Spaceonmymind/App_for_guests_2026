@@ -3480,7 +3480,12 @@
 
 
 .activities-category-card__closed {
-    margin-top: 6px;
+    margin-top: 8px;
+
+    color: #ff4d6d;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }

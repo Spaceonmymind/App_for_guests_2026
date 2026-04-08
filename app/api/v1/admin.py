@@ -19,6 +19,7 @@ from app.services.rating_finalize_service import RatingFinalizeError, RatingFina
 from app.repositories.moderator_activity_repository import ModeratorActivityRepository
 from app.services.admin_score_code_service import AdminScoreCodeError, AdminScoreCodeService
 from app.repositories.fin_game_vote_repository import FinGameVoteRepository
+from app.repositories.feature_flags_repository import FeatureFlagsRepository
 
 router = APIRouter(tags=["admin"])
 
@@ -420,3 +421,48 @@ def admin_fin_game_voting_results(request: Request, db: Session = Depends(get_db
             "results": results,
         },
     )
+
+@router.get("/admin/feature-flags", response_class=HTMLResponse)
+def admin_feature_flags(request: Request, db: Session = Depends(get_db)):
+    current_user = _require_admin(request, db)
+    if current_user is None:
+        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+    flags = FeatureFlagsRepository(db).get_or_create()
+    success_message = request.session.pop("admin_success_message", None)
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin/feature_flags.html",
+        context={
+            "title": "Управление доступом",
+            "flags": flags,
+            "success_message": success_message,
+        },
+    )
+
+@router.post("/admin/feature-flags/master-poll/toggle", response_class=HTMLResponse)
+def admin_toggle_master_poll(request: Request, db: Session = Depends(get_db)):
+    current_user = _require_admin(request, db)
+    if current_user is None:
+        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+    repo = FeatureFlagsRepository(db)
+    flags = repo.get_or_create()
+    repo.set_master_poll_open(not flags.is_master_poll_open)
+
+    request.session["admin_success_message"] = "Статус мастер-опроса обновлён."
+    return RedirectResponse(url="/admin/feature-flags", status_code=status.HTTP_303_SEE_OTHER)
+
+@router.post("/admin/feature-flags/project-voting/toggle", response_class=HTMLResponse)
+def admin_toggle_project_voting(request: Request, db: Session = Depends(get_db)):
+    current_user = _require_admin(request, db)
+    if current_user is None:
+        return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+    repo = FeatureFlagsRepository(db)
+    flags = repo.get_or_create()
+    repo.set_project_voting_open(not flags.is_project_voting_open)
+
+    request.session["admin_success_message"] = "Статус голосования обновлён."
+    return RedirectResponse(url="/admin/feature-flags", status_code=status.HTTP_303_SEE_OTHER)

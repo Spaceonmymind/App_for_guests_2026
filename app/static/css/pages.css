@@ -3501,3 +3501,7 @@
 .activities-category-card__meta {
     margin-top: auto;
 }
+
+.activities-category-card__title {
+    min-height: 56px; /* под 2 строки */
+}

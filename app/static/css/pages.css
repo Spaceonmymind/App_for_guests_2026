@@ -3473,7 +3473,30 @@
     text-decoration: underline;
 }
 
-.activities-category-card__closed
+.activities-category-card__closed {
+    margin-top: 8px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 24px;              /* фикс высота */
+    padding: 0 10px;           /* только по бокам */
+
+    border-radius: 999px;
+
+    background: rgba(255, 77, 109, 0.12);
+    border: 1px solid rgba(255, 77, 109, 0.4);
+
+    color: #ff6b7d;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+
+    white-space: nowrap;       /* запрет переносов */
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
 
 .activities-category-card__meta {
     margin-top: auto;

@@ -63,12 +63,6 @@ class ActivitiesCatalogService:
         joined_ids = self.user_activity_repo.get_awarded_activity_ids_for_user(user_id=user_id)
         flags = self.feature_flags_repo.get_or_create()
 
-        grouped["master-poll"].is_open = flags.is_master_poll_open
-        grouped["master-poll"].closed_text = "Откроется в 10:30"
-
-        grouped["best-project-vote"].is_open = flags.is_project_voting_open
-        grouped["best-project-vote"].closed_text = "Откроется в  17:00"
-
         grouped: dict[str, ActivityCategoryView] = {
             "master-poll": ActivityCategoryView(
                 slug="master-poll",
@@ -165,6 +159,10 @@ class ActivitiesCatalogService:
         grouped["master-poll"].is_completed = self._is_master_poll_completed(user_id)
         grouped["best-project-vote"].is_completed = self._is_best_project_vote_completed(user_id)
         grouped["best-fin-game-vote"].is_completed = self._is_best_fin_game_vote_completed(user_id)
+        grouped["master-poll"].is_open = flags.is_master_poll_open
+        grouped["master-poll"].closed_text = "Откроется в 10:30"
+        grouped["best-project-vote"].is_open = flags.is_project_voting_open
+        grouped["best-project-vote"].closed_text = "Откроется в  17:00"
 
         financial_map = {
             "Юный инвестор": "Игра «Юный инвестор»",
